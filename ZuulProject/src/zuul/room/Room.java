@@ -5,7 +5,8 @@ import java.util.Set;
 
 public class Room {
     private String description;
-    private HashMap<String, Room> exits; // stores exits of this room.
+    private HashMap<String, Room> exits; // stores exits of this room
+    private boolean discovered;
 
     /**
      * Create a room described "description". Initially, it has no exits.
@@ -16,6 +17,7 @@ public class Room {
      */
     public Room(String description) {
         this.description = description;
+        discovered=false;
         exits = new HashMap<>();
     }
 
@@ -74,5 +76,17 @@ public class Room {
      */
     public Room getExit(String direction) {
         return exits.get(direction);
+    }
+    
+    public void discover(){
+    	discovered = true;
+    }
+    
+    public boolean existexit(String direction){
+    	return exits.containsKey(direction);
+    }
+    
+    public boolean isDiscovered(){
+    	return discovered;
     }
 }
