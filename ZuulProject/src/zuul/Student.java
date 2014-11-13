@@ -8,7 +8,15 @@ public class Student {
 	private int Energy;
 	
 	// Salle courante du joueur
-	private Room courentRoom;
+	private Room currentRoom;
+
+	public void setCurrentRoom(Room r) {
+		currentRoom = r;
+	}
+	
+	public Room getCurrentRoom(){
+		return currentRoom;
+	}
 	
 	
 	
