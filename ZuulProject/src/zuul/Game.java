@@ -8,7 +8,7 @@ public class Game {
 	// Parser de lecture de commande
     private Parser parser;
     
-    // Attribut d�signant l'�tudiant TEST ICI
+    // Attribut d�signant l'�tudiant
     private Student student;
     
     // Carte de polytech
