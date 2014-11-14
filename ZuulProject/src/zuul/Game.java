@@ -5,7 +5,7 @@ import zuul.room.Room;
 
 public class Game {
 	
-	// Parser de lecture de commande  ddd
+	// Parser de lecture de commande
     private Parser parser;
     
     // Attribut désignant l'étudiant
