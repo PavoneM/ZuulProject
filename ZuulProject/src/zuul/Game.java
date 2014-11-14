@@ -5,10 +5,10 @@ import zuul.room.Room;
 
 public class Game {
 	
-	// Parser de lecture de commande
+	// Parser de lecture de commande  ddd
     private Parser parser;
     
-    // Attribut désignant l'étudiant
+    // Attribut dÃ©signant l'Ã©tudiant
     private Student student;
     
     // Carte de polytech
@@ -48,7 +48,7 @@ public class Game {
         corridor3 = new Room("in a corridor3");
         
         ///////
-        /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
+        /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxiÃ¨me sortie)
         ///////
         
         // Installation des sorties pour chaque salle
@@ -90,15 +90,15 @@ public class Game {
         ligne3.add(library);
         ligne3.add(lunchroom);
         
-        // Ajout des lignes à la grille
+        // Ajout des lignes Ã  la grille
         map.add(ligne1);
         map.add(ligne2);
         map.add(ligne3);
         
-        // Placement du joueur dans le couloir d'entrée
+        // Placement du joueur dans le couloir d'entrÃ©e
         student.setCurrentRoom(corridor1);
         
-        // Découverte de la zone de départ
+        // DÃ©couverte de la zone de dÃ©part
         student.getCurrentRoom().discover();
     }
     
@@ -106,19 +106,19 @@ public class Game {
     	
     	System.out.println("\n/*********************************/\n");
     	
-    	// Coordonées de la salle courante 
+    	// CoordonÃ©es de la salle courante 
     	int currentI=0, currentJ=0;
     	
-    	// Tant qu'on ne trouve pas la salle dans la grille on incrémente les coordonées
+    	// Tant qu'on ne trouve pas la salle dans la grille on incrÃ©mente les coordonÃ©es
     	while((currentJ = map.get(currentI).indexOf(student.getCurrentRoom()) ) == -1 )
     		currentI++;
     	
-    	// Itération sur toute la grille
+    	// ItÃ©ration sur toute la grille
     	for(int i=0; i<map.size(); i++){
         	System.out.print("\t");
     		for(int j=0; j<map.get(i).size(); j++){
     			
-    			// Si on trouve la salle courante on affique des parenthèses
+    			// Si on trouve la salle courante on affique des parenthÃ¨ses
     			if(i == currentI && j == currentJ)
     				System.out.print("(C)");
     			
@@ -225,14 +225,14 @@ public class Game {
      */
     private void goRoom(Command command) {
     	
-    	// Test si la commande contient un deuxième mot
+    	// Test si la commande contient un deuxiÃ¨me mot
         if (!command.hasSecondWord()) {
-            // Si il n'y a pas de deuxième mot, afficher "go where"
+            // Si il n'y a pas de deuxiÃ¨me mot, afficher "go where"
             System.out.println("Go where?");
             return;
         }
         
-        // Deuxième mot : choix de la direction
+        // DeuxiÃ¨me mot : choix de la direction
         String direction = command.getSecondWord();
         
         // Choix de la sortie de la salle
@@ -246,13 +246,13 @@ public class Game {
         
         // Si la sortie existe
         else {
-        	// Définir la salle courante
+        	// DÃ©finir la salle courante
             student.setCurrentRoom(nextRoom);
             
             // Afficher la carte
             displayMap();
             
-            // Découvrir la nouvelle salle
+            // DÃ©couvrir la nouvelle salle
             nextRoom.discover();
             
             // Afficher la description de la salle
@@ -268,7 +268,7 @@ public class Game {
      */
     private boolean quit(Command command) {
     	
-    	// Si il y a un deuxième mot, ne pas quitter
+    	// Si il y a un deuxiÃ¨me mot, ne pas quitter
         if (command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
@@ -288,7 +288,7 @@ public class Game {
 		// Afficher la page de bienvenu
         game.printWelcome();
         
-        // Variable pour savoir si le joueur veut arrêter de jouer
+        // Variable pour savoir si le joueur veut arrÃªter de jouer
         boolean finished = false;
         
         while (!finished) {
@@ -296,7 +296,7 @@ public class Game {
         	// Lire la commande
             Command command = game.parser.getCommand();
             
-            // Gérer la commande
+            // GÃ©rer la commande
             finished = game.processCommand(command);
         }
         
