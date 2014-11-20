@@ -5,13 +5,13 @@ import zuul.room.Room;
 public class Student {
 	
 	// Energie du joueur
-	private int Energy;
+	private int energy;
 	
 	// Salle courante du joueur
 	private Room currentRoom;
 	
 	public Student(){
-		Energy = 10;
+		energy = 10;
 	}
 	
 	public void setCurrentRoom(Room r) {
@@ -23,12 +23,17 @@ public class Student {
 	}
 	
 	public void setEnergy(int e){
-		Energy = e;
+		energy = e;
 	}
 	
 	public int getEnergy(){
-		return Energy;
+		return energy;
 	}
 	
-	
+	public boolean hasEnergy(){
+		if (energy == 0){
+			return false;
+		}
+		return true;
+	}	
 }

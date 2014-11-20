@@ -159,10 +159,11 @@ public class Game {
     	System.out.print("Your energy : ");
     	System.out.print("|| ");
     	for (int i = 0; i< student.getEnergy(); i++){
-    		System.out.print((char)248+" ");
+    		System.out.print("e ");
     	}
     	System.out.println("||");
     }
+    
     /**
      * Print out the opening message for the player.
      */
@@ -290,6 +291,7 @@ public class Game {
         }
     }
     
+  
 	public static void main(String[] args) {
 		
 		// Creation du jeu
@@ -302,7 +304,9 @@ public class Game {
         boolean finished = false;
         
         while (!finished) {
-        	
+        	if (!game.student.hasEnergy()){
+        		break;
+        	}
         	// Lire la commande
             Command command = game.parser.getCommand();
             
