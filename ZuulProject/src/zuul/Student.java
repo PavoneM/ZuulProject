@@ -9,7 +9,11 @@ public class Student {
 	
 	// Salle courante du joueur
 	private Room currentRoom;
-
+	
+	public Student(){
+		Energy = 10;
+	}
+	
 	public void setCurrentRoom(Room r) {
 		currentRoom = r;
 	}
@@ -18,6 +22,13 @@ public class Student {
 		return currentRoom;
 	}
 	
+	public void setEnergy(int e){
+		Energy = e;
+	}
+	
+	public int getEnergy(){
+		return Energy;
+	}
 	
 	
 }
