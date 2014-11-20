@@ -152,7 +152,17 @@ public class Game {
     	System.out.println("\n/*********************************/\n");
     	
     }
-    
+    /** 
+     * Display the energy of the player
+     */
+    private void energyBar(){
+    	System.out.print("Your energy : ");
+    	System.out.print("|| ");
+    	for (int i = 0; i< student.getEnergy(); i++){
+    		System.out.print((char)248+" ");
+    	}
+    	System.out.println("||");
+    }
     /**
      * Print out the opening message for the player.
      */
@@ -299,7 +309,7 @@ public class Game {
 		
 		// Afficher la page de bienvenu
         game.printWelcome();
-        
+        game.energyBar();
         // Variable pour savoir si le joueur veut arrêter de jouer
         boolean finished = false;
         
