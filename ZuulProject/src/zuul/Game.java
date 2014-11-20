@@ -8,7 +8,7 @@ public class Game {
 	// Parser de lecture de commande
     private Parser parser;
     
-    // Attribut d�signant l'�tudiant
+    // Attribut désignant l'étudiant
     private Student student;
     
     // Carte de polytech
@@ -48,7 +48,7 @@ public class Game {
         corridor3 = new Room("in a corridor3");
         
         ///////
-        /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxi�me sortie)
+        /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
         ///////
         
         // Installation des sorties pour chaque salle
@@ -90,15 +90,15 @@ public class Game {
         ligne3.add(library);
         ligne3.add(lunchroom);
         
-        // Ajout des lignes � la grille
+        // Ajout des lignes à la grille
         map.add(ligne1);
         map.add(ligne2);
         map.add(ligne3);
         
-        // Placement du joueur dans le couloir d'entr�e
+        // Placement du joueur dans le couloir d'entrée
         student.setCurrentRoom(corridor1);
         
-        // D�couverte de la zone de d�part
+        // Découverte de la zone de départ
         student.getCurrentRoom().discover();
     }
     
@@ -106,19 +106,19 @@ public class Game {
     	
     	System.out.println("\n/*********************************/\n");
     	
-    	// Coordon�es de la salle courante 
+    	// Coordonées de la salle courante 
     	int currentI=0, currentJ=0;
     	
-    	// Tant qu'on ne trouve pas la salle dans la grille on incr�mente les coordon�es
+    	// Tant qu'on ne trouve pas la salle dans la grille on incrémente les coordonées
     	while((currentJ = map.get(currentI).indexOf(student.getCurrentRoom()) ) == -1 )
     		currentI++;
     	
-    	// It�ration sur toute la grille
+    	// Itération sur toute la grille
     	for(int i=0; i<map.size(); i++){
         	System.out.print("\t");
     		for(int j=0; j<map.get(i).size(); j++){
     			
-    			// Si on trouve la salle courante on affique des parenth�ses
+    			// Si on trouve la salle courante on affique des parenthèses
     			if(i == currentI && j == currentJ)
     				System.out.print("(C)");
     			
@@ -225,14 +225,14 @@ public class Game {
      */
     private void goRoom(Command command) {
     	
-    	// Test si la commande contient un deuxi�me mot
+    	// Test si la commande contient un deuxième mot
         if (!command.hasSecondWord()) {
-            // Si il n'y a pas de deuxi�me mot, afficher "go where"
+            // Si il n'y a pas de deuxième mot, afficher "go where"
             System.out.println("Go where?");
             return;
         }
         
-        // Deuxi�me mot : choix de la direction
+        // Deuxième mot : choix de la direction
         String direction = command.getSecondWord();
         
         // Choix de la sortie de la salle
@@ -246,13 +246,13 @@ public class Game {
         
         // Si la sortie existe
         else {
-        	// D�finir la salle courante
+        	// Définir la salle courante
             student.setCurrentRoom(nextRoom);
             
             // Afficher la carte
             displayMap();
             
-            // D�couvrir la nouvelle salle
+            // Découvrir la nouvelle salle
             nextRoom.discover();
             
             // Afficher la description de la salle
@@ -268,7 +268,7 @@ public class Game {
      */
     private boolean quit(Command command) {
     	
-    	// Si il y a un deuxi�me mot, ne pas quitter
+    	// Si il y a un deuxième mot, ne pas quitter
         if (command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
@@ -288,7 +288,7 @@ public class Game {
 		// Afficher la page de bienvenu
         game.printWelcome();
         
-        // Variable pour savoir si le joueur veut arr�ter de jouer
+        // Variable pour savoir si le joueur veut arrêter de jouer
         boolean finished = false;
         
         while (!finished) {
@@ -296,7 +296,7 @@ public class Game {
         	// Lire la commande
             Command command = game.parser.getCommand();
             
-            // G�rer la commande
+            // Gérer la commande
             finished = game.processCommand(command);
         }
         
