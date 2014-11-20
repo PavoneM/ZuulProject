@@ -280,6 +280,18 @@ public class Game {
         }
     }
     
+    public static void progressBar(int seconds){
+    	System.out.println("||====================>");
+    	/*for(int i=0; i<seconds ; i++){
+    		System.out.print("||");
+    		try{
+    			Thread.sleep(seconds*1000);
+    		}catch(Exception e){}
+    		
+    	}
+    	*/
+    }
+    
 	public static void main(String[] args) {
 		
 		// Creation du jeu
