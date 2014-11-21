@@ -1,6 +1,8 @@
 package zuul;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 import zuul.room.Room;
 
 public class Game {
@@ -290,19 +292,24 @@ public class Game {
         }
     }
     
+    // On suppose qu'on ne donne pas plus que 100 secondes à attendre
     public static void progressBar(int seconds){
-    	System.out.println("||====================>");
-    	/*for(int i=0; i<seconds ; i++){
-    		System.out.print("||");
+    	int nb = 100/seconds;
+    	System.out.println(nb);
+
+    	int nbParSec=1000/nb;
+    	System.out.println(nbParSec);
+    	System.out.print("||");
+    	for(int i=0; i<100 ; i++){
     		try{
-    			Thread.sleep(seconds*1000);
+    			Thread.sleep(nbParSec);
     		}catch(Exception e){}
-    		
+    		System.out.print("=");
     	}
-    	*/
+    	System.out.print("||");
     }
     
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		// Creation du jeu
 		Game game = new Game();
@@ -310,6 +317,7 @@ public class Game {
 		// Afficher la page de bienvenu
         game.printWelcome();
         game.energyBar();
+        game.progressBar(10);
         // Variable pour savoir si le joueur veut arrêter de jouer
         boolean finished = false;
         
