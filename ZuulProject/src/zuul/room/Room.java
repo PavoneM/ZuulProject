@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class Room {
     private String description;
+    private String icon;
     private HashMap<String, Room> exits; // stores exits of this room
     private boolean discovered;
 
@@ -15,10 +16,11 @@ public class Room {
      * @param description
      *            The room's description.
      */
-    public Room(String description) {
+    public Room(String description, String icon) {
         this.description = description;
         discovered=false;
         exits = new HashMap<>();
+        this.icon = icon;
     }
 
     /**
@@ -39,6 +41,13 @@ public class Room {
      */
     public String getShortDescription() {
         return description;
+    }
+
+    /**
+     * @return The icon of the room for the map
+     */
+    public String getIcon() {
+        return icon;
     }
 
     /**

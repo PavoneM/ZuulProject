@@ -39,15 +39,15 @@ public class Game {
     	Room corridor1,corridor2,corridor3; 
 
         // Instanciation des salles
-    	classroom = new Room("in a classroom");
-    	examroom = new Room("in a exam room");
-        library = new Room("in the library");
-        lab = new Room("in a computing lab");
-        lunchroom = new Room("in the lunchroom");
+    	classroom = new Room("in a classroom", "Cl");
+    	examroom = new Room("in a exam room", "Ex");
+        library = new Room("in the library", "Li");
+        lab = new Room("in a computing lab", "La");
+        lunchroom = new Room("in the lunchroom", "Lu");
         
-        corridor1 = new Room("in a corridor1");
-        corridor2 = new Room("in a corridor2");
-        corridor3 = new Room("in a corridor3");
+        corridor1 = new Room("in a corridor1", "Co");
+        corridor2 = new Room("in a corridor2", "Co");
+        corridor3 = new Room("in a corridor3", "Co");
         
         ///////
         /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
@@ -120,32 +120,35 @@ public class Game {
         	System.out.print("\t");
     		for(int j=0; j<map.get(i).size(); j++){
     			
+    			// Recherche du caractère à afficher
+    			String icon = map.get(i).get(j).getIcon();
+    			
     			// Si on trouve la salle courante on affique des parenthèses
     			if(i == currentI && j == currentJ)
-    				System.out.print("(C)");
+    				System.out.print("("+icon+")");
     			
     			// Si la salle est connue on l'affiche avec des crochets
     			else if(map.get(i).get(j).isDiscovered())
-    				System.out.print("[C]");
+    				System.out.print("["+icon+"]");
     			
     			// Si on peut aller au nord, on affiche [?]
     			else if(student.getCurrentRoom().existexit("north") && i == (currentI-1) && j == currentJ && !map.get(i).get(j).isDiscovered())
-    				System.out.print("[?]");
+    				System.out.print("[??]");
     			
     			// Si on peut aller au sud, on affiche [?]
     			else if(student.getCurrentRoom().existexit("south") && i == (currentI+1) && j == currentJ && !map.get(i).get(j).isDiscovered())
-    				System.out.print("[?]");
+    				System.out.print("[??]");
     			
     			// Si on peut aller au ouest, on affiche [?]
     			else if(student.getCurrentRoom().existexit("west") && i == currentI && j == (currentJ-1) && !map.get(i).get(j).isDiscovered())
-    				System.out.print("[?]");
+    				System.out.print("[??]");
     			
     			// Si on peut aller au est, on affiche [?]
     			else if(student.getCurrentRoom().existexit("east") && i == currentI && j == (currentJ+1) && !map.get(i).get(j).isDiscovered())
-    				System.out.print("[?]");
+    				System.out.print("[??]");
     			
     			// Si on ne connait pas la salle, ou il n'existe pas de salle on affiche des espaces
-    			else System.out.print("   ");
+    			else System.out.print("    ");
     
     		}
     		System.out.print("\n");
@@ -317,7 +320,7 @@ public class Game {
 		// Afficher la page de bienvenu
         game.printWelcome();
         game.energyBar();
-        game.progressBar(10);
+        //game.progressBar(3);
         // Variable pour savoir si le joueur veut arrêter de jouer
         boolean finished = false;
         
