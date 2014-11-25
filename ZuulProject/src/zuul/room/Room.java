@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class Room {
-    private String description;
-    private String icon;
-    private HashMap<String, Room> exits; // stores exits of this room
-    private boolean discovered;
+    protected String description;
+    protected String icon;
+    protected HashMap<String, Room> exits; // stores exits of this room
+    protected boolean discovered;
 
     /**
      * Create a room described "description". Initially, it has no exits.
@@ -57,7 +57,7 @@ public class Room {
      * @return A long description of this room
      */
     public String getLongDescription() {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ".\n==>" + getExitString();
     }
 
     /**
@@ -66,7 +66,7 @@ public class Room {
      * 
      * @return Details of the room's exits.
      */
-    private String getExitString() {
+    protected String getExitString() {
         String returnString = "Exits:";
         Set<String> keys = exits.keySet();
         for (String exit : keys) {

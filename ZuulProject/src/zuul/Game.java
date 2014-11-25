@@ -2,7 +2,7 @@ package zuul;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
+import zuul.room.Corridor;
 import zuul.room.Room;
 
 public class Game {
@@ -45,9 +45,9 @@ public class Game {
         lab = new Room("in a computing lab", "La");
         lunchroom = new Room("in the lunchroom", "Lu");
         
-        corridor1 = new Room("in a corridor1", "Co");
-        corridor2 = new Room("in a corridor2", "Co");
-        corridor3 = new Room("in a corridor3", "Co");
+        corridor1 = new Corridor("in a corridor1", "Co");
+        corridor2 = new Corridor("in a corridor2", "Co");
+        corridor3 = new Corridor("in a corridor3", "Co");
         
         ///////
         /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
@@ -192,9 +192,6 @@ public class Game {
     	// Variable pour quitter
         boolean wantToQuit = false;
         
-        // Clear de la console
-    	for (int i = 0; i < 50; ++i) System.out.println();
-        
     	// Test si la commande existe
         if (command.isUnknown()) {
             System.out.println("I don't know what you mean...");
@@ -214,12 +211,36 @@ public class Game {
             goRoom(command);
         }
         
+        // Allumer les lumières
+        else if (commandWord.equals("switch")) {
+            if( student.getCurrentRoom() instanceof Corridor ) switchLight(command);
+            else System.out.println("You are not in a Corridor, there is no light to switch on/off...");
+        } 
+        
         // Quitter le jeu
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }        
         
         return wantToQuit;
+    }
+    
+    private void switchLight(Command cmd) {
+    	
+    	// Test si la commande contient un deuxième mot
+        if (!cmd.hasSecondWord()) {
+            // Si il n'y a pas de deuxième mot, afficher "go where"
+            System.out.println("Switch what? (on/off)");
+            return;
+        }
+        
+        // Deuxième mot : on ou off
+        String secondWord = cmd.getSecondWord();
+        
+        if( secondWord.toLowerCase().equals("on") )
+        	((Corridor)student.getCurrentRoom()).setLight(true);
+        else if( secondWord.toLowerCase().equals("off") )
+        	((Corridor)student.getCurrentRoom()).setLight(true);
     }
     
     /**
@@ -239,6 +260,9 @@ public class Game {
      * otherwise print an error message.
      */
     private void goRoom(Command command) {
+    	
+        // Clear de la console
+    	for (int i = 0; i < 50; ++i) System.out.println();
     	
     	// Test si la commande contient un deuxième mot
         if (!command.hasSecondWord()) {
