@@ -1,12 +1,15 @@
 package zuul.room;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import zuul.item.Item;
 
 public class Room {
     protected String description;
     protected String icon;
     protected HashMap<String, Room> exits; // stores exits of this room
+    protected ArrayList<Item> itemList;
     protected boolean discovered;
 
     /**
@@ -21,6 +24,7 @@ public class Room {
         discovered=false;
         exits = new HashMap<>();
         this.icon = icon;
+        itemList = new ArrayList<Item>();
     }
 
     /**
@@ -97,5 +101,13 @@ public class Room {
     
     public boolean isDiscovered(){
     	return discovered;
+    }
+    
+    public ArrayList<Item> getItemList(){
+    	return itemList;
+    }
+    
+    public void addItem(Item i){
+    	itemList.add(i);
     }
 }

@@ -2,7 +2,14 @@ package zuul;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+import zuul.room.Classroom;
 import zuul.room.Corridor;
+import zuul.room.ExamRoom;
+import zuul.room.Lab;
+import zuul.room.Library;
+import zuul.room.LunchRoom;
+import zuul.room.Planning;
 import zuul.room.Room;
 
 public class Game {
@@ -39,11 +46,11 @@ public class Game {
     	Room corridor1,corridor2,corridor3; 
 
         // Instanciation des salles
-    	classroom = new Room("in a classroom", "Cl");
-    	examroom = new Room("in a exam room", "Ex");
-        library = new Room("in the library", "Li");
-        lab = new Room("in a computing lab", "La");
-        lunchroom = new Room("in the lunchroom", "Lu");
+    	classroom = new Classroom("in a classroom", "Cl", generateStaticPlanning());
+    	examroom = new ExamRoom("in a exam room", "Ex", generateStaticPlanning());
+        library = new Library("in the library", "Li");
+        lab = new Lab("in a computing lab", "La", generateStaticPlanning());
+        lunchroom = new LunchRoom("in the lunchroom", "Lu");
         
         corridor1 = new Corridor("in a corridor1", "Co");
         corridor2 = new Corridor("in a corridor2", "Co");
@@ -102,6 +109,24 @@ public class Game {
         
         // Découverte de la zone de départ
         student.getCurrentRoom().discover();
+    }
+    
+    public Planning generateStaticPlanning(){
+    	
+    	
+    	Resume[][] table = new Resume[5][5];
+    	
+    	for(int i=0;i<5;i++){
+    		table[0][i] = new Resume("English", "ENG");
+    		table[1][i] = new Resume("Object Oriented Programming", "OOP");
+    		table[2][i] = new Resume("Maths", "MAT");
+    		table[3][i] = new Resume("Alg Num", "ALG");
+    		table[4][i] = new Resume("Assembly", "ASS");
+    	}
+    	
+    	Planning p = new Planning(table);
+    	
+    	return p;
     }
     
     public void displayMap(){
@@ -240,7 +265,10 @@ public class Game {
         if( secondWord.toLowerCase().equals("on") )
         	((Corridor)student.getCurrentRoom()).setLight(true);
         else if( secondWord.toLowerCase().equals("off") )
-        	((Corridor)student.getCurrentRoom()).setLight(true);
+        	((Corridor)student.getCurrentRoom()).setLight(false);
+        
+        // Afficher la description de la salle
+        System.out.println(student.getCurrentRoom().getLongDescription());
     }
     
     /**
