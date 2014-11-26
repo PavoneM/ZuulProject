@@ -25,4 +25,9 @@ public class Lecture {
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
 	}
+	
+	public boolean isEqual(String acro){
+		if ( acronym.equals(acro) ) return true;
+		return false;
+	}
 }

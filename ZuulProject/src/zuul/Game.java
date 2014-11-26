@@ -50,7 +50,7 @@ public class Game {
     	ExamRoom examroom = new ExamRoom("in a exam room", "Ex", generateStaticPlanning());
         Library library = new Library("in the library", "Li");
         Lab lab = new Lab("in a computing lab", "La", generateStaticPlanning());
-        LunchRoom lunchroom = new LunchRoom("in the lunchroom", "Lu");
+        LunchRoom lunchroom = new LunchRoom("in the lunchroom", "Lu",.1f);
         
         time = new Time();
         
@@ -241,28 +241,51 @@ public class Game {
         // Aller dans une direction
         else if (commandWord.equals("go")) {
             goRoom(command);
+            if(student.getCurrentRoom() instanceof CourseRoom)
+            	if(((CourseRoom) student.getCurrentRoom()).getCurrentCourse().isEqual("OOP"))
+            		progressBar(10);
         }
         
         // Allumer les lumières
         else if (commandWord.equals("switch")) {
             if( student.getCurrentRoom() instanceof Corridor ) switchLight(command);
             else System.out.println("You are not in a Corridor, there is no light to switch on/off...");
-        } 
+        }
         
         else if (commandWord.equals("check")) {
         	checkPlanning(command);
+        }
+        
+        else if (commandWord.equals("drink") && student.getCurrentRoom() instanceof LunchRoom) {
+        	drink();
         }
         
         // Quitter le jeu
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
-
+        
+        else {
+        	System.out.println("You can't do this action here ...");
+        }
         
         return wantToQuit;
     }
     
-    private void switchLight(Command cmd) {
+    private void drink() {
+		if(((LunchRoom) student.getCurrentRoom()).drink()){
+			System.out.println("Good job ! You increased your energy !");
+			// TODO ajouter energie ici
+		}
+		else{
+			System.out.println("Sorry but you started to play babyfoot and you have lost a random item");
+			// TODO enlever une Lecture
+		}
+		System.out.println("If you want to play again type another time 'drink'");
+			
+	}
+
+	private void switchLight(Command cmd) {
     	
     	// Test si la commande contient un deuxième mot
         if (!cmd.hasSecondWord()) {

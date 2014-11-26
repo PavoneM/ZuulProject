@@ -3,13 +3,13 @@ package zuul.item;
 public class Item {
 	
 	private String name;
-	private String description;
+	private Quizz quizz;
 	protected int power;
 	
-	public Item(String name, String description) {
+	public Item(String name, Quizz quizz) {
 		super();
 		this.name = name;
-		this.description = description;
+		this.quizz = quizz;
 		this.power = 0;
 	}
 	
@@ -17,8 +17,8 @@ public class Item {
 		return power;
 	}
 	
-	public String getDescription() {
-		return description;
+	public Quizz getQuizz() {
+		return quizz;
 	}
 
 	public String getName() {
@@ -29,8 +29,8 @@ public class Item {
 		this.name = name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescription(Quizz quizz) {
+		this.quizz = quizz;
 	}
 	
 	public void setPower(int power) {
