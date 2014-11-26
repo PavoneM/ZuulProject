@@ -1,10 +1,12 @@
 package zuul;
 
 import java.util.ArrayList;
+import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 
 import zuul.room.Classroom;
 import zuul.room.Corridor;
+import zuul.room.CourseRoom;
 import zuul.room.ExamRoom;
 import zuul.room.Lab;
 import zuul.room.Library;
@@ -22,6 +24,8 @@ public class Game {
     
     // Carte de polytech
     private ArrayList<ArrayList<? extends Room>> map;
+    
+    private Time time;
 	
     /**
      * Create the game and initialise its internal map.
@@ -42,19 +46,23 @@ public class Game {
     public void generateStaticMap(){
     	
     	// Creation des salles
-    	Room classroom, lab, examroom, library, lunchroom;
-    	Room corridor1,corridor2,corridor3; 
-
-        // Instanciation des salles
-    	classroom = new Classroom("in a classroom", "Cl", generateStaticPlanning());
-    	examroom = new ExamRoom("in a exam room", "Ex", generateStaticPlanning());
-        library = new Library("in the library", "Li");
-        lab = new Lab("in a computing lab", "La", generateStaticPlanning());
-        lunchroom = new LunchRoom("in the lunchroom", "Lu");
+    	Classroom classroom = new Classroom("in a classroom", "Cl", generateStaticPlanning());
+    	ExamRoom examroom = new ExamRoom("in a exam room", "Ex", generateStaticPlanning());
+        Library library = new Library("in the library", "Li");
+        Lab lab = new Lab("in a computing lab", "La", generateStaticPlanning());
+        LunchRoom lunchroom = new LunchRoom("in the lunchroom", "Lu");
         
-        corridor1 = new Corridor("in a corridor1", "Co");
-        corridor2 = new Corridor("in a corridor2", "Co");
-        corridor3 = new Corridor("in a corridor3", "Co");
+        time = new Time();
+        
+        time.addObserver(classroom);
+        time.addObserver(examroom);
+        time.addObserver(lab);
+        
+        new Thread(time).start();
+        
+        Corridor corridor1 = new Corridor("in a corridor1", "Co");
+        Corridor corridor2 = new Corridor("in a corridor2", "Co");
+        Corridor corridor3 = new Corridor("in a corridor3", "Co");
         
         ///////
         /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
@@ -113,15 +121,14 @@ public class Game {
     
     public Planning generateStaticPlanning(){
     	
-    	
-    	Resume[][] table = new Resume[5][5];
+    	Lecture[][] table = new Lecture[5][5];
     	
     	for(int i=0;i<5;i++){
-    		table[0][i] = new Resume("English", "ENG");
-    		table[1][i] = new Resume("Object Oriented Programming", "OOP");
-    		table[2][i] = new Resume("Maths", "MAT");
-    		table[3][i] = new Resume("Alg Num", "ALG");
-    		table[4][i] = new Resume("Assembly", "ASS");
+    		table[0][i] = new Lecture("English", "ENG");
+    		table[1][i] = new Lecture("Object Oriented Programming", "OOP");
+    		table[2][i] = new Lecture("Maths", "MAT");
+    		table[3][i] = new Lecture("Alg Num", "ALG");
+    		table[4][i] = new Lecture("Assembly", "ASS");
     	}
     	
     	Planning p = new Planning(table);
@@ -242,10 +249,15 @@ public class Game {
             else System.out.println("You are not in a Corridor, there is no light to switch on/off...");
         } 
         
+        else if (commandWord.equals("check")) {
+        	checkPlanning(command);
+        }
+        
         // Quitter le jeu
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
-        }        
+        }
+
         
         return wantToQuit;
     }
@@ -313,21 +325,70 @@ public class Game {
         
         // Si la sortie existe
         else {
-        	// Définir la salle courante
-            student.setCurrentRoom(nextRoom);
-            
-            // Afficher la carte
-            displayMap();
-            
-            // Découvrir la nouvelle salle
-            nextRoom.discover();
-            
-            // Afficher la description de la salle
-            System.out.println(student.getCurrentRoom().getLongDescription());
+
+			if (((nextRoom instanceof CourseRoom) && verifyCheckPlanning()) || !(nextRoom instanceof CourseRoom)) {
+				// Définir la salle courante
+				student.setCurrentRoom(nextRoom);
+
+				// Afficher la carte
+				displayMap();
+
+				// Découvrir la nouvelle salle
+				nextRoom.discover();
+
+				// Afficher la description de la salle
+				System.out.println(student.getCurrentRoom().getLongDescription());
+			}
         }
     }
 
-    /**
+    private void checkPlanning(Command command) {
+
+        // Clear de la console
+    	for (int i = 0; i < 50; ++i) System.out.println();
+    	
+    	// Test si la commande contient un deuxième mot
+        if (!command.hasSecondWord()) {
+            // Si il n'y a pas de deuxième mot, afficher "go where"
+            System.out.println("Error : Check + direction");
+            return;
+        }
+        
+        // Deuxième mot : choix de la direction
+        String direction = command.getSecondWord();
+        
+        // Choix de la sortie de la salle
+        Room nextRoom = student.getCurrentRoom().getExit(direction);
+        
+        // Si il y a pas de sortie, afficher "There is no door"
+        if (nextRoom == null) {
+        	displayMap();
+            System.out.println("There is no door!");
+        }
+        
+        // Test si c'est une CourseRoom
+        if (!(nextRoom instanceof CourseRoom)) {
+        	displayMap();
+            System.out.println("Your room haven't a planning !");
+            return;
+        }
+        
+        else {
+			System.out.println(((CourseRoom)nextRoom).displayPlanning());
+        }
+	}
+
+	private boolean verifyCheckPlanning() {
+		System.out.println("Have you checked the planning in front of the door? (yes/no)");
+    	Command c = parser.getCommand();
+		if(c.getCommandWord().equals("yes")) return true;
+		else if( c.getCommandWord().equals("no"))
+			System.out.println("Ok, so check it with 'check + direction'");
+		else System.out.println("Your command is invalid. Check the planning before entering");
+		return false;
+	}
+
+	/**
      * "Quit" was entered. Check the rest of the command to see whether we
      * really quit the game.
      * 
@@ -348,12 +409,11 @@ public class Game {
     }
     
     // On suppose qu'on ne donne pas plus que 100 secondes à attendre
-    public static void progressBar(int seconds){
-    	int nb = 100/seconds;
-    	System.out.println(nb);
-
+    public void progressBar(int hour){
+    	int nb = 100/hour;
     	int nbParSec=1000/nb;
-    	System.out.println(nbParSec);
+    	int currentTime = this.time.getHour();
+    	
     	System.out.print("||");
     	for(int i=0; i<100 ; i++){
     		try{
@@ -362,6 +422,7 @@ public class Game {
     		System.out.print("=");
     	}
     	System.out.print("||");
+    	this.time.setHour(currentTime+hour);
     }
     
 	public static void main(String[] args) throws Exception {
@@ -372,9 +433,9 @@ public class Game {
 		// Afficher la page de bienvenu
         game.printWelcome();
         game.energyBar();
-        //game.progressBar(3);
+        
         // Variable pour savoir si le joueur veut arrêter de jouer
-        boolean finished = false;
+        boolean finished = false;        
         
         while (!finished) {
         	

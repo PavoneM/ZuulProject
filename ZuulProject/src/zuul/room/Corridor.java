@@ -20,7 +20,7 @@ public class Corridor extends Room{
 	@Override
     public String getLongDescription() {
 		String switched=(light)?"ON":"OFF";
-		if(light) switched+= " \n==> "+super.getExitString();
+		switched+= " \n==> "+super.getExitString();
         return "You are " + super.description + ".\n" + "The lights are " + switched;
     }
 
