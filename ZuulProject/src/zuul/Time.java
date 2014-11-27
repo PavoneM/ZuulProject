@@ -59,7 +59,7 @@ public class Time extends Observable implements Runnable{
 	
 	public String getTime(){
 		String theDay = days[day];
-		return "Today we are "+ theDay +"   "+hour+":"+second;
+		return "Today we are "+ theDay +"   "+String.format("%02d", hour)+":"+String.format("%02d", second);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package zuul.item;
 
+
 public class Book extends Item{
 
 	public Book(String name, Quizz quizz) {

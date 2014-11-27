@@ -1,13 +1,20 @@
 package zuul;
 
+import java.util.ArrayList;
+import zuul.item.LectItem;
+
 public class Lecture {
 	
 	private String name;
 	private String acronym;
+	private ArrayList<LectItem> lessons;
 	
-	public Lecture(String name, String acronym) {
+	public Lecture(String name, String acronym, ArrayList<LectItem> less) {
 		this.name = name;
 		this.acronym = acronym;
+		// TODO charger du fichier de config les différentes lessons
+		this.lessons = less;
+		
 	}
 	
 	public String getName() {

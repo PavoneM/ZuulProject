@@ -45,6 +45,16 @@ public class Student {
 		return Energy;
 	}
 	
+	//TODO test this
+	public void increaseEnergy(int e){
+		if((Energy+2) <= 20 ) Energy += e;
+		else Energy=20;
+	}
+	
+	public void decreaseEnergy(int e){
+		Energy -= e;
+	}
+	
 	public String displayBackpack(){
 		String ret = "";
 		for(int i=0;i<backpack.size();i++)

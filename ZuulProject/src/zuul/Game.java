@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 
+import zuul.item.LectItem;
 import zuul.room.Classroom;
 import zuul.room.Corridor;
 import zuul.room.CourseRoom;
@@ -123,12 +124,44 @@ public class Game {
     	
     	Lecture[][] table = new Lecture[5][5];
     	
+    	// TODO effacer les lectures quand le fichier de config sera bon
+    	ArrayList<LectItem> oopLecture = new ArrayList<LectItem>();
+    	oopLecture.add(new LectItem("Introducing Objects", null));
+    	oopLecture.add(new LectItem("Object Oriented Programming", null));
+    	oopLecture.add(new LectItem("Improving structures with inherithence", null));
+    	oopLecture.add(new LectItem("Abstraction techniques", null));
+    	
+    	ArrayList<LectItem> engLecture = new ArrayList<LectItem>();
+    	engLecture.add(new LectItem("English lesson 1", null));
+    	engLecture.add(new LectItem("English lesson 2", null));
+    	engLecture.add(new LectItem("English lesson 3", null));
+    	engLecture.add(new LectItem("English lesson 4", null));
+    	
+    	ArrayList<LectItem> mathLecture = new ArrayList<LectItem>();
+    	mathLecture.add(new LectItem("Maths lecture 1", null));
+    	mathLecture.add(new LectItem("Maths lecture 2", null));
+    	mathLecture.add(new LectItem("Maths lecture 3", null));
+    	mathLecture.add(new LectItem("Maths lecture 4", null));
+    	
+    	ArrayList<LectItem> algLecture = new ArrayList<LectItem>();
+    	algLecture.add(new LectItem("AlgNum lecture 1", null));
+    	algLecture.add(new LectItem("AlgNum lecture 2", null));
+    	algLecture.add(new LectItem("AlgNum lecture 3", null));
+    	algLecture.add(new LectItem("AlgNum lecture 4", null));
+    	
+    	ArrayList<LectItem> assLecture = new ArrayList<LectItem>();
+    	assLecture.add(new LectItem("Assembly lecture 1", null));
+    	assLecture.add(new LectItem("Assembly lecture 2", null));
+    	assLecture.add(new LectItem("Assembly lecture 3", null));
+    	assLecture.add(new LectItem("Assembly lecture 4", null));
+    	
+    	
     	for(int i=0;i<5;i++){
-    		table[0][i] = new Lecture("English", "ENG");
-    		table[1][i] = new Lecture("Object Oriented Programming", "OOP");
-    		table[2][i] = new Lecture("Maths", "MAT");
-    		table[3][i] = new Lecture("Alg Num", "ALG");
-    		table[4][i] = new Lecture("Assembly", "ASS");
+    		table[0][i] = new Lecture("English", "ENG", engLecture);
+    		table[1][i] = new Lecture("Object Oriented Programming", "OOP", oopLecture);
+    		table[2][i] = new Lecture("Maths", "MAT", mathLecture);
+    		table[3][i] = new Lecture("Alg Num", "ALG", algLecture);
+    		table[4][i] = new Lecture("Assembly", "ASS", assLecture);
     	}
     	
     	Planning p = new Planning(table);
@@ -193,10 +226,11 @@ public class Game {
      * Display the energy of the player
      */
     private void energyBar(){
-    	System.out.print("Your energy : ");
+    	System.out.print("\nYour energy : ");
     	System.out.print("|| ");
-    	for (int i = 0; i< student.getEnergy(); i++){
-    		System.out.print((char)248+" ");
+    	for (int i = 1; i<= 20; i++){
+    		if(i<=student.getEnergy()) System.out.print((char)248+" ");
+    		else System.out.print("  ");
     	}
     	System.out.println("||");
     }
@@ -242,8 +276,10 @@ public class Game {
         else if (commandWord.equals("go")) {
             goRoom(command);
             if(student.getCurrentRoom() instanceof CourseRoom)
-            	if(((CourseRoom) student.getCurrentRoom()).getCurrentCourse().isEqual("OOP"))
-            		progressBar(10);
+            	if(((CourseRoom) student.getCurrentRoom()).getCurrentCourse().isEqual("OOP")){
+            		waitFor(10);
+            		System.out.println("Your energy has been decreased by 2\nYou can now exit if you want");
+            	}
         }
         
         // Allumer les lumières
@@ -257,7 +293,8 @@ public class Game {
         }
         
         else if (commandWord.equals("drink") && student.getCurrentRoom() instanceof LunchRoom) {
-        	drink();
+        	if(student.getEnergy() < 20 ) drink();
+        	else System.out.println("Sorry but you can't drink more because your energy is full");
         }
         
         // Quitter le jeu
@@ -275,7 +312,8 @@ public class Game {
     private void drink() {
 		if(((LunchRoom) student.getCurrentRoom()).drink()){
 			System.out.println("Good job ! You increased your energy !");
-			// TODO ajouter energie ici
+			student.increaseEnergy(2);
+			energyBar();
 		}
 		else{
 			System.out.println("Sorry but you started to play babyfoot and you have lost a random item");
@@ -362,6 +400,7 @@ public class Game {
 				// Afficher la description de la salle
 				System.out.println(student.getCurrentRoom().getLongDescription());
 			}
+			
         }
     }
 
@@ -390,7 +429,7 @@ public class Game {
         }
         
         // Test si c'est une CourseRoom
-        if (!(nextRoom instanceof CourseRoom)) {
+        if (!(nextRoom.getClass().getSuperclass().getName().equals("zuul.room.CourseRoom"))) {
         	displayMap();
             System.out.println("Your room haven't a planning !");
             return;
@@ -398,6 +437,7 @@ public class Game {
         
         else {
 			System.out.println(((CourseRoom)nextRoom).displayPlanning());
+			System.out.println("\n\n"+time.getTime());
         }
 	}
 
@@ -405,8 +445,16 @@ public class Game {
 		System.out.println("Have you checked the planning in front of the door? (yes/no)");
     	Command c = parser.getCommand();
 		if(c.getCommandWord().equals("yes")) return true;
-		else if( c.getCommandWord().equals("no"))
+		else if( c.getCommandWord().equals("no")){
+	        // Clear de la console
+	    	for (int i = 0; i < 50; ++i) System.out.println();
+			// Afficher la carte
+			displayMap();
+
+			// Afficher la description de la salle
+			System.out.println(student.getCurrentRoom().getLongDescription() + "\n");
 			System.out.println("Ok, so check it with 'check + direction'");
+		}
 		else System.out.println("Your command is invalid. Check the planning before entering");
 		return false;
 	}
@@ -431,11 +479,20 @@ public class Game {
         }
     }
     
+    public void waitTo(int hour){
+    	int currentTime = this.time.getHour();
+    	this.progressBar(hour);
+    	this.time.setHour(currentTime+hour);
+    }
+    
+    public void waitFor(int seconds){
+    	this.progressBar(seconds);
+    }
+    
     // On suppose qu'on ne donne pas plus que 100 secondes à attendre
-    public void progressBar(int hour){
+    private void progressBar(int hour){
     	int nb = 100/hour;
     	int nbParSec=1000/nb;
-    	int currentTime = this.time.getHour();
     	
     	System.out.print("||");
     	for(int i=0; i<100 ; i++){
@@ -445,7 +502,6 @@ public class Game {
     		System.out.print("=");
     	}
     	System.out.print("||");
-    	this.time.setHour(currentTime+hour);
     }
     
 	public static void main(String[] args) throws Exception {
@@ -455,7 +511,6 @@ public class Game {
 		
 		// Afficher la page de bienvenu
         game.printWelcome();
-        game.energyBar();
         
         // Variable pour savoir si le joueur veut arrêter de jouer
         boolean finished = false;        

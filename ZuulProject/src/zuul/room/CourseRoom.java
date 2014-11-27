@@ -14,7 +14,7 @@ public class CourseRoom extends Room implements Observer{
 	public CourseRoom(String description, String icon, Planning p) {
 		super(description, icon);
 		planning = p;
-		currentCourse = new Lecture("Object Oriented Programming", "OOP");
+		currentCourse = new Lecture("Object Oriented Programming", "OOP", null);
 	}
 
 	@Override
