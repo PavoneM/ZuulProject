@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 
+import zuul.item.Item;
+import zuul.item.LabItem;
 import zuul.item.LectItem;
 import zuul.room.Classroom;
 import zuul.room.Corridor;
@@ -125,43 +127,22 @@ public class Game {
     	Lecture[][] table = new Lecture[5][5];
     	
     	// TODO effacer les lectures quand le fichier de config sera bon
-    	ArrayList<LectItem> oopLecture = new ArrayList<LectItem>();
+    	ArrayList<Item> oopLecture = new ArrayList<Item>();
     	oopLecture.add(new LectItem("Introducing Objects", null));
     	oopLecture.add(new LectItem("Object Oriented Programming", null));
     	oopLecture.add(new LectItem("Improving structures with inherithence", null));
     	oopLecture.add(new LectItem("Abstraction techniques", null));
-    	
-    	ArrayList<LectItem> engLecture = new ArrayList<LectItem>();
-    	engLecture.add(new LectItem("English lesson 1", null));
-    	engLecture.add(new LectItem("English lesson 2", null));
-    	engLecture.add(new LectItem("English lesson 3", null));
-    	engLecture.add(new LectItem("English lesson 4", null));
-    	
-    	ArrayList<LectItem> mathLecture = new ArrayList<LectItem>();
-    	mathLecture.add(new LectItem("Maths lecture 1", null));
-    	mathLecture.add(new LectItem("Maths lecture 2", null));
-    	mathLecture.add(new LectItem("Maths lecture 3", null));
-    	mathLecture.add(new LectItem("Maths lecture 4", null));
-    	
-    	ArrayList<LectItem> algLecture = new ArrayList<LectItem>();
-    	algLecture.add(new LectItem("AlgNum lecture 1", null));
-    	algLecture.add(new LectItem("AlgNum lecture 2", null));
-    	algLecture.add(new LectItem("AlgNum lecture 3", null));
-    	algLecture.add(new LectItem("AlgNum lecture 4", null));
-    	
-    	ArrayList<LectItem> assLecture = new ArrayList<LectItem>();
-    	assLecture.add(new LectItem("Assembly lecture 1", null));
-    	assLecture.add(new LectItem("Assembly lecture 2", null));
-    	assLecture.add(new LectItem("Assembly lecture 3", null));
-    	assLecture.add(new LectItem("Assembly lecture 4", null));
-    	
+    	oopLecture.add(new LabItem("Introducing Objects", null));
+    	oopLecture.add(new LabItem("Object Oriented Programming", null));
+    	oopLecture.add(new LabItem("Improving structures with inherithence", null));
+    	oopLecture.add(new LabItem("Abstraction techniques", null));
     	
     	for(int i=0;i<5;i++){
-    		table[0][i] = new Lecture("English", "ENG", engLecture);
+    		table[0][i] = new Lecture("English", "ENG",null);
     		table[1][i] = new Lecture("Object Oriented Programming", "OOP", oopLecture);
-    		table[2][i] = new Lecture("Maths", "MAT", mathLecture);
-    		table[3][i] = new Lecture("Alg Num", "ALG", algLecture);
-    		table[4][i] = new Lecture("Assembly", "ASS", assLecture);
+    		table[2][i] = new Lecture("Maths", "MAT", null);
+    		table[3][i] = new Lecture("Alg Num", "ALG", null);
+    		table[4][i] = new Lecture("Assembly", "ASS", null);
     	}
     	
     	Planning p = new Planning(table);
@@ -270,17 +251,32 @@ public class Game {
         // Afficher l'aide
         if (commandWord.equals("help")) {
             printHelp();
-        } 
+        }
         
         // Aller dans une direction
         else if (commandWord.equals("go")) {
             goRoom(command);
-            if(student.getCurrentRoom() instanceof CourseRoom)
-            	if(((CourseRoom) student.getCurrentRoom()).getCurrentCourse().isEqual("OOP")){
-            		waitFor(10);
-            		System.out.println("Your energy has been decreased by 2\nYou can now exit if you want");
-            	}
         }
+        
+        // Afficher la carte
+        else if (commandWord.equals("map")) {
+            displayMap();
+        } 
+        
+        // Afficher le temps
+        else if (commandWord.equals("time")) {
+            System.out.println(time.getTime());
+        }
+        
+        // Attendre
+        else if (commandWord.equals("wait")) {
+            waiting(command);
+        } 
+        
+        // Montrer l'énergie
+        else if (commandWord.equals("energy")) {
+            energyBar();
+        } 
         
         // Allumer les lumières
         else if (commandWord.equals("switch")) {
@@ -301,7 +297,6 @@ public class Game {
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
-        
         else {
         	System.out.println("You can't do this action here ...");
         }
@@ -309,7 +304,28 @@ public class Game {
         return wantToQuit;
     }
     
-    private void drink() {
+    private void waiting(Command command) {
+    	
+    	// Test si la commande contient un deuxième mot
+        if (!command.hasSecondWord()) {
+            // Si il n'y a pas de deuxième mot
+            System.out.println("Wait how much?");
+            return;
+        }
+        
+        int time = 0;
+        
+        try {
+        	time = Integer.parseInt(command.getSecondWord());
+        } catch (Exception e) {
+			System.out.println("Wait + integer please ! ");
+			return;
+		}
+		
+        waitTo(time);
+	}
+
+	private void drink() {
 		if(((LunchRoom) student.getCurrentRoom()).drink()){
 			System.out.println("Good job ! You increased your energy !");
 			student.increaseEnergy(2);
@@ -386,9 +402,34 @@ public class Game {
         
         // Si la sortie existe
         else {
+			if (nextRoom instanceof CourseRoom) {
+				Lecture nextRoomC = ((CourseRoom) nextRoom).getCurrentCourse();
+				boolean checked = verifyCheckPlanning();
+				if (checked && nextRoomC.getAcronym().equals("OOP")){
+					// Afficher la carte
+					displayMap();
 
-			if (((nextRoom instanceof CourseRoom) && verifyCheckPlanning()) || !(nextRoom instanceof CourseRoom)) {
-				// Définir la salle courante
+					// Découvrir la nouvelle salle
+					nextRoom.discover();
+
+					// Afficher la description de la salle
+					System.out.println(nextRoom.getLongDescription());
+					System.out.println("The subject of the lesson is "+nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
+            		waitFor(10);
+            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
+				}
+				else if(checked && !nextRoomC.equals("OOP")){
+					// Afficher la carte
+					displayMap();
+					
+					System.out.println("Sorry it's not an OOP course you are now in your previous room");
+					
+					System.out.println(student.getCurrentRoom().getLongDescription());
+				}
+					
+			}
+			else{
+        		// Définir la salle courante
 				student.setCurrentRoom(nextRoom);
 
 				// Afficher la carte
@@ -426,6 +467,7 @@ public class Game {
         if (nextRoom == null) {
         	displayMap();
             System.out.println("There is no door!");
+            return;
         }
         
         // Test si c'est une CourseRoom
@@ -481,8 +523,13 @@ public class Game {
     
     public void waitTo(int hour){
     	int currentTime = this.time.getHour();
-    	this.progressBar(hour);
-    	this.time.setHour(currentTime+hour);
+    	if(hour-currentTime >= 0)
+    		this.progressBar(hour-currentTime);
+    	else{
+    		this.progressBar(11+hour-currentTime);
+    		time.increaseDay();
+    	}
+    	time.setHour(hour);
     }
     
     public void waitFor(int seconds){

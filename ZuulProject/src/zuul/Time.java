@@ -61,5 +61,10 @@ public class Time extends Observable implements Runnable{
 		String theDay = days[day];
 		return "Today we are "+ theDay +"   "+String.format("%02d", hour)+":"+String.format("%02d", second);
 	}
+
+	public void increaseDay() {
+		if(day==5) day=0;
+		else day++;
+	}
 	
 }

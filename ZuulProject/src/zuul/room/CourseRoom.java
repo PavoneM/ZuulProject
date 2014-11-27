@@ -32,7 +32,6 @@ public class CourseRoom extends Room implements Observer{
 	public String getLongDescription(){
 		String status = "";
 		if(currentCourse.isEqual("OOP")) status = "Too bad ! you are in OOP course so you have to wait until it ends ! Sorry :(";
-		else status = "You are not in OOP course ! Go out fast as you can !" + "\n==>" + getExitString();;
 		
 		return "You are " + description +"."
 				+ "\nYou are in a lecture of "+ currentCourse.getName()

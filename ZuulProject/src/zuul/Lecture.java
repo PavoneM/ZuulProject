@@ -1,15 +1,20 @@
 package zuul;
 
 import java.util.ArrayList;
+
+import zuul.item.Item;
 import zuul.item.LectItem;
+import zuul.room.Classroom;
+import zuul.room.CourseRoom;
+import zuul.room.Room;
 
 public class Lecture {
 	
 	private String name;
 	private String acronym;
-	private ArrayList<LectItem> lessons;
+	private ArrayList<Item> lessons;
 	
-	public Lecture(String name, String acronym, ArrayList<LectItem> less) {
+	public Lecture(String name, String acronym, ArrayList<Item> less) {
 		this.name = name;
 		this.acronym = acronym;
 		// TODO charger du fichier de config les différentes lessons
@@ -36,5 +41,18 @@ public class Lecture {
 	public boolean isEqual(String acro){
 		if ( acronym.equals(acro) ) return true;
 		return false;
+	}
+	
+	public Item getCurrentLesson(ArrayList<Item> bp, Room item){
+		String nomClasse="";
+		if(item.getClass().getName().equals("zuul.room.Classroom"))
+			nomClasse="zuul.item.LectItem";
+		else if(item.getClass().getName().equals("zuul.room.Lab"))
+			nomClasse="zuul.item.LabItem";
+		
+		for(int j=0;j<lessons.size();j++)
+			if(!bp.contains(lessons.get(j)) && lessons.get(j).getClass().getName().equals(nomClasse))
+				return lessons.get(j);
+		return null;
 	}
 }
