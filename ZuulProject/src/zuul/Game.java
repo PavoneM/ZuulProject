@@ -263,6 +263,11 @@ public class Game {
             displayMap();
         } 
         
+        // Afficher le backpack
+        else if (commandWord.equals("backpack")) {
+            displayMap();
+        } 
+        
         // Afficher le temps
         else if (commandWord.equals("time")) {
             System.out.println(time.getTime());
@@ -416,6 +421,7 @@ public class Game {
 					System.out.println(nextRoom.getLongDescription());
 					System.out.println("The subject of the lesson is "+nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
             		waitFor(10);
+            		student.addBackpack(nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
             		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
 				}
 				else if(checked && !nextRoomC.equals("OOP")){

@@ -55,8 +55,13 @@ public class Student {
 		Energy -= e;
 	}
 	
+	public void addToBackpack(Item i){
+		backpack.add(i);
+	}
+	
 	public String displayBackpack(){
 		String ret = "";
+		if( backpack.size() == 0 ) return "You have 0 items on your back";
 		for(int i=0;i<backpack.size();i++)
 			ret+="- "+backpack.get(i)+"\n";
 		return ret;
