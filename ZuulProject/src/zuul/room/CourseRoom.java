@@ -14,7 +14,7 @@ public class CourseRoom extends Room implements Observer{
 	public CourseRoom(String description, String icon, Planning p) {
 		super(description, icon);
 		planning = p;
-		currentCourse = new Lecture("Object Oriented Programming", "OOP");
+		currentCourse = new Lecture("Object Oriented Programming", "OOP", null);
 	}
 
 	@Override
@@ -30,8 +30,19 @@ public class CourseRoom extends Room implements Observer{
 
 	@Override
 	public String getLongDescription(){
+		String status = "";
+		if(currentCourse.isEqual("OOP")) status = "Too bad ! you are in OOP course so you have to wait until it ends ! Sorry :(";
+		
 		return "You are " + description +"."
 				+ "\nYou are in a lecture of "+ currentCourse.getName()
-				+ "\n==>" + getExitString();
+				+ "\n"+status;
+	}
+
+	public Lecture getCurrentCourse() {
+		return currentCourse;
+	}
+
+	public void setCurrentCourse(Lecture currentCourse) {
+		this.currentCourse = currentCourse;
 	}
 }

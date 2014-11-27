@@ -1,17 +1,32 @@
 package zuul;
 
+import java.util.ArrayList;
+
+import zuul.item.Item;
 import zuul.room.Room;
 
 public class Student {
 	
 	// Energie du joueur
-	private int energy;
+	private int Energy;
 	
 	// Salle courante du joueur
 	private Room currentRoom;
 	
+	// Sac à dos du joueur
+	private ArrayList<Item> backpack;
+	
 	public Student(){
-		energy = 10;
+		Energy = 10;
+		backpack = new ArrayList<Item>();
+	}
+	
+	public ArrayList<Item> getBackpack() {
+		return backpack;
+	}
+
+	public void addBackpack(Item i) {
+		this.backpack.add(i);
 	}
 	
 	public void setCurrentRoom(Room r) {
@@ -23,17 +38,32 @@ public class Student {
 	}
 	
 	public void setEnergy(int e){
-		energy = e;
+		Energy = e;
 	}
 	
 	public int getEnergy(){
-		return energy;
+		return Energy;
 	}
 	
-	public boolean hasEnergy(){
-		if (energy == 0){
-			return false;
-		}
-		return true;
-	}	
+	//TODO test this
+	public void increaseEnergy(int e){
+		if((Energy+2) <= 20 ) Energy += e;
+		else Energy=20;
+	}
+	
+	public void decreaseEnergy(int e){
+		Energy -= e;
+	}
+	
+	public void addToBackpack(Item i){
+		backpack.add(i);
+	}
+	
+	public String displayBackpack(){
+		String ret = "";
+		if( backpack.size() == 0 ) return "You have 0 items on your back";
+		for(int i=0;i<backpack.size();i++)
+			ret+="- "+backpack.get(i)+"\n";
+		return ret;
+	}
 }
