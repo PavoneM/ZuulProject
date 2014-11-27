@@ -8,7 +8,7 @@ import zuul.room.Room;
 public class Student {
 	
 	// Energie du joueur
-	private int Energy;
+	private int energy;
 	
 	// Salle courante du joueur
 	private Room currentRoom;
@@ -17,7 +17,7 @@ public class Student {
 	private ArrayList<Item> backpack;
 	
 	public Student(){
-		Energy = 10;
+		energy = 10;
 		backpack = new ArrayList<Item>();
 	}
 	
@@ -38,21 +38,21 @@ public class Student {
 	}
 	
 	public void setEnergy(int e){
-		Energy = e;
+		energy = e;
 	}
 	
 	public int getEnergy(){
-		return Energy;
+		return energy;
 	}
 	
 	//TODO test this
 	public void increaseEnergy(int e){
-		if((Energy+2) <= 20 ) Energy += e;
-		else Energy=20;
+		if((energy+2) <= 20 ) energy += e;
+		else energy=20;
 	}
 	
 	public void decreaseEnergy(int e){
-		Energy -= e;
+		energy -= e;
 	}
 	
 	public void addToBackpack(Item i){
