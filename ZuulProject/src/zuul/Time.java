@@ -55,6 +55,8 @@ public class Time extends Observable implements Runnable{
 			this.hour = 8 + (this.hour-17);
 		else 
 			this.hour = hour;
+		setChanged();
+		notifyObservers(hour);
 	}
 	
 	public String getTime(){

@@ -9,6 +9,6 @@ public class LectItem extends Item {
 	
 	@Override
 	public String toString(){
-		return "I'm an Lecture Item";
+		return "Lecture item : "+super.getName();
 	}
 }

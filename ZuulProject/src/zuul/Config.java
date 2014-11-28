@@ -1,6 +1,11 @@
 package zuul;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import zuul.item.Item;
+import zuul.item.LabItem;
+import zuul.item.LectItem;
 
 public class Config {
 	
@@ -9,6 +14,8 @@ public class Config {
 	public static HashMap<String,String> langEn = new HashMap<String,String>();
 	
 	public static HashMap<String,String> langFr = new HashMap<String,String>();
+	
+	public static ArrayList<Item> oopLecture;
 	
 	public static void initialize(){
 		langEn.put("wel", "Welcome on the Polytech'Groland Building! \n Type help if you need help");
@@ -51,18 +58,9 @@ public class Config {
 		langEn.put("second", "second");
 		langEn.put("exits", "Exits");
 		langEn.put("lecture", "You are in a lecture of :");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
+
+		
+		
 		langFr.put("wel", "Bienvenue à Polytech'Groland ! \n Tapez 'aide' si vous avez besoin d'aide");
 		langFr.put("cl", "dans une salle de cours");
 		langFr.put("ex", "dans une salle d'examens");
@@ -103,6 +101,17 @@ public class Config {
 		langFr.put("second", "secondes");
 		langFr.put("exits", "Sorties ");
 		langFr.put("lecture", "Vous êtes dans un cours de : ");
+		
+		
+    	oopLecture = new ArrayList<Item>();
+    	oopLecture.add(new LectItem("Introducing Objects", null));
+    	oopLecture.add(new LectItem("Object Oriented Programming", null));
+    	oopLecture.add(new LectItem("Improving structures with inherithence", null));
+    	oopLecture.add(new LectItem("Abstraction techniques", null));
+    	oopLecture.add(new LabItem("Introducing Objects", null));
+    	oopLecture.add(new LabItem("Object Oriented Programming", null));
+    	oopLecture.add(new LabItem("Improving structures with inherithence", null));
+    	oopLecture.add(new LabItem("Abstraction techniques", null));
 	}
 	
 }

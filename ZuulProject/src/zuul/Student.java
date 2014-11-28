@@ -59,6 +59,16 @@ public class Student {
 		backpack.add(i);
 	}
 	
+	public void removeRandomLecture(){
+		if(backpack.size() == 0){
+			System.out.println("You are lucky, you don't have more items in your backpack");
+			return;
+		}
+		int random = (int)(Math.random() * (backpack.size()-1));
+		System.out.println("You lost the item : " + backpack.get(random));
+		backpack.remove(random);
+	}
+	
 	public String displayBackpack(){
 		String ret = "";
 		if( backpack.size() == 0 ) return "You have 0 items on your back";
