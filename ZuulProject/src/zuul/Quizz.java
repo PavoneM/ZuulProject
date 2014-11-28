@@ -22,7 +22,20 @@ public class Quizz {
 			int random = (int) (Math.random()*(QA.get("question"+i).size()-1));
 			System.out.println("Question "+i+ " : " + QA.get("question"+i).get(random));
 			String answer = QA.get("answer"+i).get(random);
-			if( p.getCommand().getCommandWord().equals(answer) )
+			
+			String givenAnswer = null;
+			while (true){
+				if((givenAnswer = p.getCommand().getCommandWord()) == null){ 
+					System.out.println("Your answer must be 'true' or 'false'");
+					continue;
+				}
+				else if(!givenAnswer.equals("false") && !givenAnswer.equals("true")){ 
+					System.out.println("Your answer must be 'true' or 'false'");
+					continue;
+				}
+				else break;
+			}
+			if( givenAnswer.equals(answer) )
 				grade++;
 			else grade--;
 		}
