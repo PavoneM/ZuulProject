@@ -431,7 +431,7 @@ public class Game {
 				}
 					
 			}
-			if (nextRoom instanceof Library){
+			else if (nextRoom instanceof Library){
 				// Afficher la carte
 				displayMap();
 
