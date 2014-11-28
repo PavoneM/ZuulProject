@@ -8,6 +8,7 @@ public class Corridor extends Room{
 	private boolean light;
 	private boolean photocopier;
 	private Tablet tablet;
+	private Cheat cheat;
 
 	public Corridor(String description, String icon, boolean photocopier, boolean t) {
 		super(description, icon);
@@ -15,6 +16,7 @@ public class Corridor extends Room{
 		this.photocopier = photocopier;
 		if(t) tablet = new Tablet("Tablet");
 		else tablet = null;
+		cheat = new Cheat("Answer sheet");
 	}
 
 	public boolean isLight() {
@@ -45,7 +47,14 @@ public class Corridor extends Room{
 	}
 	
 	public Cheat getCheat(){
-		return new Cheat("Answer sheet");
+		return cheat;
 	}
 	
+	public void setCheat(Cheat c){
+		cheat = c;
+	}
+	
+	public void setTablet(Tablet t){
+		tablet = t;
+	}
 }

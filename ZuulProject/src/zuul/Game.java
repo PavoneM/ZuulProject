@@ -343,9 +343,15 @@ public class Game {
         		System.out.println("But your energy has decrease by 2");
         		student.decreaseEnergy(2);
         	}
+        	cor.setTablet(null);
         }
         else if(secWord.equals("cheat") && cor.getPhotocopier()){
         	Cheat c = cor.getCheat();
+        	if(c==null){
+        		System.out.println("There is no more cheat here...");
+        		return; 
+        	}
+        	cor.setCheat(null);
         	System.out.println("You find a "+c+"\nThe answer sheet in now on your backpack");
         	student.addBackpack(c);
         }
@@ -366,16 +372,21 @@ public class Game {
             return;
         }
         
-        int time = 0;
+        int theTime = 0;
         
         try {
-        	time = Integer.parseInt(command.getSecondWord());
+        	theTime = Integer.parseInt(command.getSecondWord());
         } catch (Exception e) {
 			System.out.println("Wait + integer please ! ");
 			return;
 		}
 		
-        waitTo(time);
+        if( theTime <=8 || theTime >= 18){
+        	System.out.println("The time must be between 8h and 18h");
+        	return;
+        }
+        	
+        waitTo(theTime);
 	}
 
 	private void drink() {
@@ -549,7 +560,7 @@ public class Game {
 				
 				time.setHour(16);
 				
-				System.out.println("Your energy decrease by 2");
+				System.out.println("\nYour energy decrease by 2");
 				student.decreaseEnergy(2);
 			}
 			else{
@@ -609,10 +620,18 @@ public class Game {
 	}
 
 	private boolean verifyCheckPlanning() {
+		
+		String c = null;
+		
 		System.out.println("Have you checked the planning in front of the door? (yes/no)");
-    	Command c = parser.getCommand();
-		if(c.getCommandWord().equals("yes")) return true;
-		else if( c.getCommandWord().equals("no")){
+		
+		while((c=parser.getCommand().getCommandWord()) == null){
+			System.out.println("Your command doesn't exist");
+			System.out.println("Have you checked the planning in front of the door? (yes/no)");
+		}
+    	
+		if(c.equals("yes")) return true;
+		else if( c.equals("no")){
 	        // Clear de la console
 	    	for (int i = 0; i < 50; ++i) System.out.println();
 			// Afficher la carte
