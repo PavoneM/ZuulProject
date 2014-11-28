@@ -8,6 +8,7 @@ import java.util.prefs.BackingStoreException;
 import zuul.item.Item;
 import zuul.item.LabItem;
 import zuul.item.LectItem;
+import zuul.item.Quizz;
 import zuul.room.Classroom;
 import zuul.room.Corridor;
 import zuul.room.CourseRoom;
@@ -408,18 +409,29 @@ public class Game {
 				Lecture nextRoomC = ((CourseRoom) nextRoom).getCurrentCourse();
 				boolean checked = verifyCheckPlanning();
 				if (checked && nextRoomC.getAcronym().equals("OOP")){
-					// Afficher la carte
-					displayMap();
-
-					// Découvrir la nouvelle salle
-					nextRoom.discover();
-
-					// Afficher la description de la salle
-					System.out.println(nextRoom.getLongDescription());
-					System.out.println("The subject of the lesson is "+nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
-            		waitFor(10);
-            		student.addBackpack(nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
-            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
+					if(nextRoom instanceof ExamRoom){
+						if(student.checkBackpack()){
+							System.out.println("Welcome to the exam room.");
+							System.out.println("After suffering from listening to all OOP courses, here is the final boss of this game.");
+							System.out.println("Prepare yourself for battle !");
+									
+						}
+					}
+					else{
+					
+						// Afficher la carte
+						displayMap();
+	
+						// Découvrir la nouvelle salle
+						nextRoom.discover();
+	
+						// Afficher la description de la salle
+						System.out.println(nextRoom.getLongDescription());
+						System.out.println("The subject of the lesson is "+nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
+	            		waitFor(10);
+	            		student.addBackpack(nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
+	            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
+					}
 				}
 				else if(checked && !nextRoomC.equals("OOP")){
 					// Afficher la carte

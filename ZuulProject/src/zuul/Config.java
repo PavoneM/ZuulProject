@@ -17,6 +17,8 @@ public class Config {
 	
 	public static ArrayList<Item> oopLecture;
 	
+	public static HashMap<String, ArrayList<String>> QA;
+	
 	public static void initialize(){
 		langEn.put("wel", "Welcome on the Polytech'Groland Building! \n Type help if you need help");
 		langEn.put("cl", "in a classroom");
@@ -112,6 +114,63 @@ public class Config {
     	oopLecture.add(new LabItem("Object Oriented Programming"));
     	oopLecture.add(new LabItem("Improving structures with inherithence"));
     	oopLecture.add(new LabItem("Abstraction techniques"));
-	}
-	
+    	
+    	
+    	ArrayList<String> questionsIntroducingObject = new ArrayList<String>();
+    	ArrayList<String> answersIntroducingObject = new ArrayList<String>();
+    	ArrayList<String> questionsInheritance= new ArrayList<String>();
+    	ArrayList<String> answersInheritance= new ArrayList<String>();
+    	ArrayList<String> questionsAbstraction= new ArrayList<String>();
+    	ArrayList<String> answersAbstraction= new ArrayList<String>();
+    	ArrayList<String> questionsFurther= new ArrayList<String>();
+    	ArrayList<String> answersFurther= new ArrayList<String>();
+    	
+    	questionsIntroducingObject.add("The method toLowerCase( ) changes all lowercase letters to uppercase and all uppercase letters to lowercase.");
+    	questionsIntroducingObject.add("The following statement is valid  double price = 7450.98;");
+    	questionsIntroducingObject.add("Mathematicians and computers doesn't interpret the equal sign (=) in the same way.");
+    	questionsIntroducingObject.add("All variables must be declared before they can be used.");
+    	answersIntroducingObject.add("false");
+    	answersIntroducingObject.add("true");
+      	answersIntroducingObject.add("true");
+    	answersIntroducingObject.add("false");
+    	
+    	QA.put("question1", questionsIntroducingObject);
+    	QA.put("answer1", answersIntroducingObject);
+    	
+    	questionsInheritance.add("To determine whether a reference variable that points to an object is of a particular class type, Java provides the operator instanceof.");
+    	questionsInheritance.add("The private members of a superclass can be accessed by a subclass.");
+    	questionsInheritance.add("In single inheritance, the subclass is derived from a single superclass.");
+    	questionsInheritance.add("Inheritance implies an “is-a” relationship.");
+    	answersInheritance.add("true");
+    	answersInheritance.add("false");
+    	answersInheritance.add("true");
+    	answersInheritance.add("true");
+    	
+    	QA.put("question2", questionsInheritance);
+    	QA.put("answer2", answersInheritance);
+    	
+    	questionsAbstraction.add("An abstract class can be instancied");
+    	questionsAbstraction.add("An interface is a class that contains only abstract methods and/or named constants");
+    	questionsAbstraction.add("You can instantiate an object of a subclass of an abstract class, but only if the subclass gives the definitions of all the abstract methods of the superclass.");
+    	questionsAbstraction.add("A subclass cannot directly access public members of a superclass.");
+    	answersAbstraction.add("false");
+    	answersAbstraction.add("true");
+    	answersAbstraction.add("true");
+    	answersAbstraction.add("false");
+    	
+    	QA.put("question3", questionsAbstraction);
+    	QA.put("answer3", answersAbstraction);
+    	
+    	questionsFurther.add("Rhydon was the first pokémon ever created");
+    	questionsFurther.add("In Final Fantasy IV, Golbeza is Cecil's father");
+    	questionsFurther.add("Super Mario first appeared in Donkey Kong");
+    	questionsFurther.add("Samus Aran, from the Metroid Serie, is a boy");
+    	answersAbstraction.add("true");
+    	answersAbstraction.add("false");
+    	answersAbstraction.add("true");
+    	answersAbstraction.add("false");
+    	
+    	QA.put("question4", questionsFurther);
+    	QA.put("answer4", answersFurther);
+	}	
 }
