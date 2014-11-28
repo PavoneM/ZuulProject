@@ -104,14 +104,14 @@ public class Config {
 		
 		
     	oopLecture = new ArrayList<Item>();
-    	oopLecture.add(new LectItem("Introducing Objects", null));
-    	oopLecture.add(new LectItem("Object Oriented Programming", null));
-    	oopLecture.add(new LectItem("Improving structures with inherithence", null));
-    	oopLecture.add(new LectItem("Abstraction techniques", null));
-    	oopLecture.add(new LabItem("Introducing Objects", null));
-    	oopLecture.add(new LabItem("Object Oriented Programming", null));
-    	oopLecture.add(new LabItem("Improving structures with inherithence", null));
-    	oopLecture.add(new LabItem("Abstraction techniques", null));
+    	oopLecture.add(new LectItem("Introducing Objects"));
+    	oopLecture.add(new LectItem("Object Oriented Programming"));
+    	oopLecture.add(new LectItem("Improving structures with inherithence"));
+    	oopLecture.add(new LectItem("Abstraction techniques"));
+    	oopLecture.add(new LabItem("Introducing Objects"));
+    	oopLecture.add(new LabItem("Object Oriented Programming"));
+    	oopLecture.add(new LabItem("Improving structures with inherithence"));
+    	oopLecture.add(new LabItem("Abstraction techniques"));
 	}
 	
 }

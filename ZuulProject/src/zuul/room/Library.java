@@ -11,7 +11,7 @@ public class Library extends Room{
 	
 	public Library(String description, String icon, ArrayList<Item> l) {
 		super(description, icon);
-		book = new Book("Book", null, l);
+		book = new Book("Book", l);
 	}
 	
 	 @Override
