@@ -3,6 +3,7 @@ package zuul;
 import java.util.ArrayList;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
+import java.util.prefs.BackingStoreException;
 
 import zuul.item.Item;
 import zuul.item.LabItem;
@@ -34,6 +35,7 @@ public class Game {
      * Create the game and initialise its internal map.
      */
     public Game() {
+    	Config.initialize();
         student = new Student();
         map = new ArrayList<ArrayList<? extends Room>>();
         parser = new Parser();
@@ -51,7 +53,7 @@ public class Game {
     	// Creation des salles
     	Classroom classroom = new Classroom("in a classroom", "Cl", generateStaticPlanning());
     	ExamRoom examroom = new ExamRoom("in a exam room", "Ex", generateStaticPlanning());
-        Library library = new Library("in the library", "Li");
+        Library library = new Library("in the library", "Li", Config.oopLecture);
         Lab lab = new Lab("in a computing lab", "La", generateStaticPlanning());
         LunchRoom lunchroom = new LunchRoom("in the lunchroom", "Lu",.1f);
         
@@ -127,19 +129,10 @@ public class Game {
     	Lecture[][] table = new Lecture[5][5];
     	
     	// TODO effacer les lectures quand le fichier de config sera bon
-    	ArrayList<Item> oopLecture = new ArrayList<Item>();
-    	oopLecture.add(new LectItem("Introducing Objects", null));
-    	oopLecture.add(new LectItem("Object Oriented Programming", null));
-    	oopLecture.add(new LectItem("Improving structures with inherithence", null));
-    	oopLecture.add(new LectItem("Abstraction techniques", null));
-    	oopLecture.add(new LabItem("Introducing Objects", null));
-    	oopLecture.add(new LabItem("Object Oriented Programming", null));
-    	oopLecture.add(new LabItem("Improving structures with inherithence", null));
-    	oopLecture.add(new LabItem("Abstraction techniques", null));
     	
     	for(int i=0;i<5;i++){
     		table[0][i] = new Lecture("English", "ENG",null);
-    		table[1][i] = new Lecture("Object Oriented Programming", "OOP", oopLecture);
+    		table[1][i] = new Lecture("Object Oriented Programming", "OOP", Config.oopLecture);
     		table[2][i] = new Lecture("Maths", "MAT", null);
     		table[3][i] = new Lecture("Alg Num", "ALG", null);
     		table[4][i] = new Lecture("Assembly", "ASS", null);
@@ -265,7 +258,7 @@ public class Game {
         
         // Afficher le backpack
         else if (commandWord.equals("backpack")) {
-            displayMap();
+            displayBackpack();
         } 
         
         // Afficher le temps
@@ -309,7 +302,11 @@ public class Game {
         return wantToQuit;
     }
     
-    private void waiting(Command command) {
+    private void displayBackpack() {
+		System.out.println(student.displayBackpack());
+	}
+
+	private void waiting(Command command) {
     	
     	// Test si la commande contient un deuxième mot
         if (!command.hasSecondWord()) {
@@ -337,8 +334,8 @@ public class Game {
 			energyBar();
 		}
 		else{
-			System.out.println("Sorry but you started to play babyfoot and you have lost a random item");
-			// TODO enlever une Lecture
+			System.out.println("Sorry but you started to play babyfoot :(");
+			student.removeRandomLecture();
 		}
 		System.out.println("If you want to play again type another time 'drink'");
 			
@@ -433,6 +430,25 @@ public class Game {
 					System.out.println(student.getCurrentRoom().getLongDescription());
 				}
 					
+			}
+			if (nextRoom instanceof Library){
+				// Afficher la carte
+				displayMap();
+
+				// Découvrir la nouvelle salle
+				nextRoom.discover();
+
+				// Afficher la description de la salle
+				System.out.println(nextRoom.getLongDescription());
+				
+				//TODO lire un livre
+				Item i = ((Library) nextRoom).getABook();
+				
+				waitFor(10);
+				
+				System.out.println("\nYou have find a book of "+i.toString());
+				
+				student.addBackpack(i);
 			}
 			else{
         		// Définir la salle courante

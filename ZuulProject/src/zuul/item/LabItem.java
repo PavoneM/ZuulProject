@@ -9,6 +9,6 @@ public class LabItem extends Item {
 	
 	@Override
 	public String toString(){
-		return "I'm a Lab Item";
+		return "Lab item : "+super.getName();
 	}
 }

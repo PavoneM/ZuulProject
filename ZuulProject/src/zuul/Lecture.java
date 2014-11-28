@@ -43,6 +43,10 @@ public class Lecture {
 		return false;
 	}
 	
+	public ArrayList<Item> getLessons(){
+		return lessons;
+	}
+	
 	public Item getCurrentLesson(ArrayList<Item> bp, Room item){
 		String nomClasse="";
 		if(item.getClass().getName().equals("zuul.room.Classroom"))
