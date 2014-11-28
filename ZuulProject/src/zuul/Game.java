@@ -381,8 +381,8 @@ public class Game {
 			return;
 		}
 		
-        if( theTime <=8 || theTime >= 18){
-        	System.out.println("The time must be between 8h and 18h");
+        if( theTime <8 || theTime > 17){
+        	System.out.println("The time must be between 8h and 17h");
         	return;
         }
         	
@@ -689,6 +689,12 @@ public class Game {
     
     // On suppose qu'on ne donne pas plus que 100 secondes à attendre
     private void progressBar(int hour){
+    	
+    	if(hour==0){
+    		System.out.println("Invalid time: Type an hour different of current time");
+    		return;
+    	}
+    	
     	int nb = 100/hour;
     	int nbParSec=1000/nb;
     	
