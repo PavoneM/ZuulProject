@@ -51,15 +51,18 @@ public class Config {
 		langEn.put("second", "second");
 		langEn.put("exits", "Exits");
 		langEn.put("lecture", "You are in a lecture of :");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
-		langEn.put("", "");
+		langEn.put("go", "go");
+		langEn.put("quit", "quit");
+		langEn.put("help", "help");
+		langEn.put("switch", "switch");
+		langEn.put("yes", "yes");
+		langEn.put("no", "no");
+		langEn.put("time", "time");
+		langEn.put("check", "check");
+		langEn.put("drink", "drink");
+		langEn.put("map", "map");
+		langEn.put("wait", "wait");
+		langEn.put("backpack", "backpack");
 		langEn.put("", "");
 		langEn.put("", "");
 		langEn.put("", "");
@@ -103,6 +106,18 @@ public class Config {
 		langFr.put("second", "secondes");
 		langFr.put("exits", "Sorties ");
 		langFr.put("lecture", "Vous êtes dans un cours de : ");
+		langFr.put("go", "aller");
+		langFr.put("quit", "quitter");
+		langFr.put("help", "aide");
+		langFr.put("switch", "appuyer");
+		langFr.put("yes", "oui");
+		langFr.put("no", "non");
+		langFr.put("time", "emps");
+		langFr.put("check", "check");
+		langFr.put("drink", "boire");
+		langFr.put("map", "carte");
+		langFr.put("wait", "attendre");
+		langFr.put("backpack", "sac à dos");
 	}
 	
 }
