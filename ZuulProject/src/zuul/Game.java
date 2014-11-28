@@ -65,9 +65,9 @@ public class Game {
         
         new Thread(time).start();
         
-        Corridor corridor1 = new Corridor("in a corridor1", "Co");
-        Corridor corridor2 = new Corridor("in a corridor2", "Co");
-        Corridor corridor3 = new Corridor("in a corridor3", "Co");
+        Corridor corridor1 = new Corridor("in a corridor1", "Co", false, false);
+        Corridor corridor2 = new Corridor("in a corridor2", "Co", true, false);
+        Corridor corridor3 = new Corridor("in a corridor3", "Co", false, true);
         
         ///////
         /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
