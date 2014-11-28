@@ -17,16 +17,17 @@ public class Quizz {
 
 	public boolean start(){
 		
-		for(int i=0; i<Config.oopLecture.size();i++){
-			int random = (int) (Math.random()*QA.get("question"+i).size());
+		for(int i=1; i<=Config.oopLecture.size()/2;i++){
+			
+			int random = (int) (Math.random()*(QA.get("question"+i).size()-1));
 			System.out.println("Question "+i+ " : " + QA.get("question"+i).get(random));
 			String answer = QA.get("answer"+i).get(random);
 			if( p.getCommand().getCommandWord().equals(answer) )
 				grade++;
 			else grade--;
 		}
-		
-		if(grade >= Config.oopLecture.size()/2) return true;
+		System.out.println("Your mark is "+grade + "/" + Config.oopLecture.size()/2);
+		if(grade >= Config.oopLecture.size()/4) return true;
 		else return false;
 	}
 }

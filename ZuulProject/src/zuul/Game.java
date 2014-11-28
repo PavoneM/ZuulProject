@@ -462,7 +462,7 @@ public class Game {
 				if (checked && nextRoomC.getAcronym().equals("OOP")){
 					if(nextRoom instanceof ExamRoom){
 						
-						if(student.checkBackpack()){
+						if(!student.checkBackpack()){
 							System.out.println("You must have listened all lectures and do all lab session to take the exam");
 							return false;
 						}

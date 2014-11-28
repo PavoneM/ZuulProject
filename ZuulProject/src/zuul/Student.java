@@ -80,9 +80,11 @@ public class Student {
 	
 	public boolean checkBackpack(){
 		for(int i = 0; i < Config.oopLecture.size();i++){
+			System.out.println(Config.oopLecture.get(i));
 			if (!backpack.contains(Config.oopLecture.get(i)))
 					return false;
 		}
+		System.out.println("JE RETOURNE TRUE");
 		return true;
 	}
 }

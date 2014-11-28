@@ -167,10 +167,10 @@ public class Config {
     	questionsFurther.add("In Final Fantasy IV, Golbeza is Cecil's father");
     	questionsFurther.add("Super Mario first appeared in Donkey Kong");
     	questionsFurther.add("Samus Aran, from the Metroid Serie, is a boy");
-    	answersAbstraction.add("true");
-    	answersAbstraction.add("false");
-    	answersAbstraction.add("true");
-    	answersAbstraction.add("false");
+    	answersFurther.add("true");
+    	answersFurther.add("false");
+    	answersFurther.add("true");
+    	answersFurther.add("false");
     	
     	QA.put("question4", questionsFurther);
     	QA.put("answer4", answersFurther);
