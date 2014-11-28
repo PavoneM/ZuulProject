@@ -28,13 +28,14 @@ public class Time extends Observable implements Runnable{
 			if(second>=60){
 				hour++;
 				second=0;
+				if(hour>=18){
+					day++;
+					hour=8;
+				}
 				setChanged();
 				notifyObservers(hour);
 			}
-			if(hour>=17){
-				day++;
-				hour=8;
-			}
+
 			if((day+1)>=5){
 				day=0;
 			}
@@ -51,8 +52,8 @@ public class Time extends Observable implements Runnable{
 	
 	public void setHour(int hour) {
 		this.second=0;
-		if(hour>=17)
-			this.hour = 8 + (this.hour-17);
+		if(hour>=18)
+			this.hour = 8 + (this.hour-18);
 		else 
 			this.hour = hour;
 		setChanged();
