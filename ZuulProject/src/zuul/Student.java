@@ -76,4 +76,12 @@ public class Student {
 			ret+="- "+backpack.get(i)+"\n";
 		return ret;
 	}
+	
+	public boolean checkBackpack(){
+		for(int i = 0; i < Config.oopLecture.size();i++){
+			if (!backpack.contains(Config.oopLecture.get(i)))
+					return false;
+		}
+		return true;
+	}
 }
