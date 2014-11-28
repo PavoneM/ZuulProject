@@ -35,6 +35,7 @@ public class Game {
      * Create the game and initialise its internal map.
      */
     public Game() {
+    	Config.initialize();
         student = new Student();
         map = new ArrayList<ArrayList<? extends Room>>();
         parser = new Parser();
@@ -445,7 +446,7 @@ public class Game {
 				
 				waitFor(10);
 				
-				System.out.println("You have find a book of "+i.toString());
+				System.out.println("\nYou have find a book of "+i.toString());
 				
 				student.addBackpack(i);
 			}

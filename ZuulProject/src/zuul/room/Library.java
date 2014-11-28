@@ -16,7 +16,7 @@ public class Library extends Room{
 	
 	 @Override
 	 public String getLongDescription(){
-		 return "Welcome to the Library ! Here you can read books, and you can learn new lessons (or known lessons :D )"
+		 return "Welcome to the Library ! Here you can read books, and you can learn new lessons (or known lessons :D )\n"
 				 + "You can read only one book per day, so... Good luck !";
 	 }
 	 
