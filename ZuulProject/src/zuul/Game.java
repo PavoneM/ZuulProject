@@ -501,12 +501,19 @@ public class Game {
 	
 						// Découvrir la nouvelle salle
 						nextRoom.discover();
-	
+						
+						Item currentLecture = nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom); 
+						
+						if(currentLecture == null){
+							System.out.println("You have already all the items of this course");
+							return false;
+						}
+						
 						// Afficher la description de la salle
 						System.out.println(nextRoom.getLongDescription());
-						System.out.println("The subject of the lesson is "+nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
+						System.out.println("The subject of the lesson is "+ currentLecture);
 	            		waitFor(10);
-	            		student.addBackpack(nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
+	            		student.addBackpack(currentLecture);
 	            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
 	            		student.decreaseEnergy(2);
 					}
