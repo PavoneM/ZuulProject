@@ -9,8 +9,8 @@ public class Book extends Item{
 	
 	private ArrayList<Item> lessons;
 	
-	public Book(String name, Quizz quizz, ArrayList<Item> l) {
-		super(name, quizz);
+	public Book(String name, ArrayList<Item> l) {
+		super(name);
 		lessons = l;
 	}
 	
