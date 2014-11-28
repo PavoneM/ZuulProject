@@ -52,7 +52,8 @@ public class Student {
 	}
 	
 	public void decreaseEnergy(int e){
-		energy -= e;
+		if((energy-2) >= 0 ) energy -= e;
+		else energy=0;
 	}
 	
 	public void addToBackpack(Item i){

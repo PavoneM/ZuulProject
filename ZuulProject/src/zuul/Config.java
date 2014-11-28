@@ -125,6 +125,8 @@ public class Config {
     	ArrayList<String> questionsFurther= new ArrayList<String>();
     	ArrayList<String> answersFurther= new ArrayList<String>();
     	
+    	QA = new HashMap<String, ArrayList<String>>();
+    	
     	questionsIntroducingObject.add("The method toLowerCase( ) changes all lowercase letters to uppercase and all uppercase letters to lowercase.");
     	questionsIntroducingObject.add("The following statement is valid  double price = 7450.98;");
     	questionsIntroducingObject.add("Mathematicians and computers doesn't interpret the equal sign (=) in the same way.");

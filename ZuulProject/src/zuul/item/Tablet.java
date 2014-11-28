@@ -13,8 +13,8 @@ public class Tablet extends Item{
 	}
 	
 	public Item readTablet(){
-		// TODO Charger la chance de lire la tablette de la classe config
-		if( Math.random() >= .5f) 
+		// TODO  Charger la chance de lire la tablette de la classe config
+		if( Math.random() >= .3f) 
 			return lessons.get((int)(Math.random() * (lessons.size()-1)));
 		else 
 			return null;

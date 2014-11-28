@@ -15,6 +15,7 @@ public class Book extends Item{
 	}
 	
 	public Item readBook(){
+		if(Math.random() <= .4f) return null;
 		int random = (int)(Math.random() * (lessons.size()-1));
 		return lessons.get(random);
 	}

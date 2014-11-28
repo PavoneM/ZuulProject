@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 import java.util.prefs.BackingStoreException;
-
+import zuul.item.Cheat;
 import zuul.item.Item;
 import zuul.item.LabItem;
 import zuul.item.LectItem;
@@ -63,6 +63,7 @@ public class Game {
         time.addObserver(classroom);
         time.addObserver(examroom);
         time.addObserver(lab);
+        time.addObserver(library);
         
         new Thread(time).start();
         
@@ -278,6 +279,14 @@ public class Game {
         } 
         
         // Allumer les lumières
+        else if (commandWord.equals("take")) {
+            if( student.getCurrentRoom() instanceof Corridor )
+            	if( ((Corridor) student.getCurrentRoom()).isLight() ) take(command);
+            	else System.out.println("You can't take anything until the lights are on !");
+            else System.out.println("You are not in a Corridor, there is nothing to take");
+        }
+        
+        // Allumer les lumières
         else if (commandWord.equals("switch")) {
             if( student.getCurrentRoom() instanceof Corridor ) switchLight(command);
             else System.out.println("You are not in a Corridor, there is no light to switch on/off...");
@@ -303,7 +312,46 @@ public class Game {
         return wantToQuit;
     }
     
-    private void displayBackpack() {
+    private void take(Command command) {
+    	
+    	// Test si la commande contient un deuxième mot
+        if (!command.hasSecondWord()) {
+            // Si il n'y a pas de deuxième mot
+            System.out.println("Take what?");
+            return;
+        }
+		
+        Corridor cor = (Corridor) student.getCurrentRoom();
+        
+        String secWord = command.getSecondWord();
+        
+        if ( !secWord.equals("cheat") && !secWord.equals("tablet")){
+        	System.out.println("You can only take a Cheat or Tablet item sorry !");
+        	return;
+        }
+        
+        if (secWord.equals("tablet") && cor.getTablet()!= null){
+        	System.out.print("You take the tablet and");
+        	Item i = cor.getTablet().readTablet();
+        	if(i == null){
+        		System.out.println(" you started to play a game ! You forgot a random lesson...");
+        		student.removeRandomLecture();
+        	}
+        	else{
+        		System.out.println(" you read something about "+i.getName());
+        		student.addBackpack(i);
+        	}
+        }
+        else if(secWord.equals("cheat") && cor.getPhotocopier()){
+        	Cheat c = cor.getCheat();
+        	System.out.println("You find a "+c+"\nThe answer sheet in now on your backpack");
+        	student.addBackpack(c);
+        }
+        else System.out.println("There is no "+secWord +" in this corridor");
+        return;
+	}
+
+	private void displayBackpack() {
 		System.out.println(student.displayBackpack());
 	}
 
@@ -431,6 +479,7 @@ public class Game {
 	            		waitFor(10);
 	            		student.addBackpack(nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
 	            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
+	            		student.decreaseEnergy(2);
 					}
 				}
 				else if(checked && !nextRoomC.equals("OOP")){
@@ -441,9 +490,23 @@ public class Game {
 					
 					System.out.println(student.getCurrentRoom().getLongDescription());
 				}
-					
+					 
 			}
 			else if (nextRoom instanceof Library){
+				
+				if( !((Library) nextRoom).isOpen() ){
+					
+					// Afficher la carte
+					displayMap();
+					
+					// Afficher la description de la salle
+					System.out.println(student.getCurrentRoom().getLongDescription());
+					
+					System.out.println("Library is courently closed. Try to come beteween 12h and 16h");
+
+					return;
+				}
+				
 				// Afficher la carte
 				displayMap();
 
@@ -456,11 +519,20 @@ public class Game {
 				//TODO lire un livre
 				Item i = ((Library) nextRoom).getABook();
 				
+				if( i == null ) {
+					System.out.println("\n ==> You find a boring book but you continue to reading for fun");
+				}
+				else{
+					System.out.println("\n ==>You find a book of "+i.toString());
+					student.addBackpack(i);
+				}
+				
 				waitFor(10);
 				
-				System.out.println("\nYou have find a book of "+i.toString());
+				time.setHour(16);
 				
-				student.addBackpack(i);
+				System.out.println("Your energy decrease by 2");
+				student.decreaseEnergy(2);
 			}
 			else{
         		// Définir la salle courante
