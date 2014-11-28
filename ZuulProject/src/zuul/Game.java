@@ -408,18 +408,24 @@ public class Game {
 				Lecture nextRoomC = ((CourseRoom) nextRoom).getCurrentCourse();
 				boolean checked = verifyCheckPlanning();
 				if (checked && nextRoomC.getAcronym().equals("OOP")){
-					// Afficher la carte
-					displayMap();
-
-					// Découvrir la nouvelle salle
-					nextRoom.discover();
-
-					// Afficher la description de la salle
-					System.out.println(nextRoom.getLongDescription());
-					System.out.println("The subject of the lesson is "+nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
-            		waitFor(10);
-            		student.addBackpack(nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
-            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
+					if(nextRoom instanceof ExamRoom){
+						
+					}
+					else{
+					
+						// Afficher la carte
+						displayMap();
+	
+						// Découvrir la nouvelle salle
+						nextRoom.discover();
+	
+						// Afficher la description de la salle
+						System.out.println(nextRoom.getLongDescription());
+						System.out.println("The subject of the lesson is "+nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
+	            		waitFor(10);
+	            		student.addBackpack(nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom));
+	            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
+					}
 				}
 				else if(checked && !nextRoomC.equals("OOP")){
 					// Afficher la carte
