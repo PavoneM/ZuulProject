@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 import java.util.prefs.BackingStoreException;
+
 import zuul.item.Cheat;
 import zuul.item.Item;
 import zuul.item.LabItem;
 import zuul.item.LectItem;
-import zuul.item.Quizz;
 import zuul.room.Classroom;
 import zuul.room.Corridor;
 import zuul.room.CourseRoom;
@@ -250,7 +250,7 @@ public class Game {
         
         // Aller dans une direction
         else if (commandWord.equals("go")) {
-            goRoom(command);
+            wantToQuit = goRoom(command);
         }
         
         // Afficher la carte
@@ -340,6 +340,8 @@ public class Game {
         	else{
         		System.out.println(" you read something about "+i.getName());
         		student.addBackpack(i);
+        		System.out.println("But your energy has decrease by 2");
+        		student.decreaseEnergy(2);
         	}
         }
         else if(secWord.equals("cheat") && cor.getPhotocopier()){
@@ -426,8 +428,9 @@ public class Game {
     /**
      * Try to in to one direction. If there is an exit, enter the new room,
      * otherwise print an error message.
+     * @return 
      */
-    private void goRoom(Command command) {
+    private boolean goRoom(Command command) {
     	
         // Clear de la console
     	for (int i = 0; i < 50; ++i) System.out.println();
@@ -436,7 +439,7 @@ public class Game {
         if (!command.hasSecondWord()) {
             // Si il n'y a pas de deuxième mot, afficher "go where"
             System.out.println("Go where?");
-            return;
+            return false;
         }
         
         // Deuxième mot : choix de la direction
@@ -458,11 +461,26 @@ public class Game {
 				boolean checked = verifyCheckPlanning();
 				if (checked && nextRoomC.getAcronym().equals("OOP")){
 					if(nextRoom instanceof ExamRoom){
+						
 						if(student.checkBackpack()){
-							System.out.println("Welcome to the exam room.");
-							System.out.println("After suffering from listening to all OOP courses, here is the final boss of this game.");
-							System.out.println("Prepare yourself for battle !");
-									
+							System.out.println("You must have listened all lectures and do all lab session to take the exam");
+							return false;
+						}
+						if(student.getEnergy() < 18){
+							System.out.println("You must have more than 18 energy to pass the exam");
+							return false;
+						}
+						System.out.println("Welcome to the exam room.");
+						System.out.println("After suffering from listening to all OOP courses, here is the final boss of this game.");
+						System.out.println("Prepare yourself for battle !");
+						Quizz q = new Quizz(Config.QA, parser);
+						if(q.start()){
+							System.out.println("You are the best, you finished the game. Good job !!\nThanks for playing to this boring game !");
+							return true;
+						}
+						else{
+							System.out.println("You are bad man. You have to pass the exam another time sorry...\nYou have now 2 energy");
+							student.setEnergy(2);
 						}
 					}
 					else{
@@ -504,7 +522,7 @@ public class Game {
 					
 					System.out.println("Library is courently closed. Try to come beteween 12h and 16h");
 
-					return;
+					return false;
 				}
 				
 				// Afficher la carte
@@ -549,6 +567,7 @@ public class Game {
 			}
 			
         }
+        return false;
     }
 
     private void checkPlanning(Command command) {
