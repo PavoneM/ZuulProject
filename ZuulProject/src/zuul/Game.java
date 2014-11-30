@@ -328,12 +328,12 @@ public class Game {
         
         String secWord = command.getSecondWord();
         
-        if ( !secWord.equals("cheat") && !secWord.equals("tablet")){
+        if ( !secWord.equals(language.get("cheat")) && !secWord.equals(language.get("tablet"))){
         	System.out.println(language.get("sheetortab"));
         	return;
         }
         
-        if (secWord.equals("tablet") && cor.getTablet()!= null){
+        if (secWord.equals(language.get("tablet")) && cor.getTablet()!= null){
         	System.out.print(language.get("tablettook"));
         	Item i = cor.getTablet().readTablet();
         	if(i == null){
@@ -348,7 +348,7 @@ public class Game {
         	}
         	cor.setTablet(null);
         }
-        else if(secWord.equals("cheat") && cor.getPhotocopier()){
+        else if(secWord.equals(language.get("cheat")) && cor.getPhotocopier()){
         	Cheat c = cor.getCheat();
         	if(c==null){
         		System.out.println(language.get("nomorecheat"));
@@ -482,7 +482,7 @@ public class Game {
 							return false;
 						}
 						System.out.println(language.get("exammessage"));
-						Quizz q = new Quizz(Config.QA, parser);
+						Quizz q = new Quizz(Config.QA, parser, student.getBackpack());
 						if(q.start()){
 							System.out.println(language.get("bravo"));
 							return true;
@@ -504,6 +504,11 @@ public class Game {
 						
 						if(currentLecture == null){
 							System.out.println(language.get("allitems"));
+							return false;
+						}
+						
+						if(currentLecture instanceof LabItem && !((LabItem)currentLecture).haveLectItem(student.getBackpack())){
+							System.out.println(language.get("haventlecture"));
 							return false;
 						}
 						

@@ -30,12 +30,12 @@ public class CourseRoom extends Room implements Observer{
 
 	@Override
 	public String getLongDescription(){
-		String status = "";
-		if(currentCourse.isEqual("OOP")) status = Game.language.get("toobapoop");
+		String status = "l";
+		if(currentCourse.isEqual("OOP")) status = Game.language.get("toobadoop");
 		
 		return Game.language.get("youare") + description +"."
 				+ Game.language.get("youareinlecture")+ currentCourse.getName()
-				+ "\n"+status;
+				+ "\n"+status+"hello";
 	}
 
 	public Lecture getCurrentCourse() {

@@ -5,6 +5,7 @@ import zuul.Config;
 public class Cheat extends Item{
 	
 	private Item lesson;
+	private int num;
 	
 	public Cheat(String name) {
 		super(name);
@@ -12,7 +13,9 @@ public class Cheat extends Item{
 	}
 	
 	private void generateCheat(){
-		lesson = Config.oopLecture.get((int) (Math.random()*Config.oopLecture.size()));
+		int random = (int) (Math.random()*(Config.oopLecture.size()/2));
+		this.num = random;
+		lesson = Config.oopLecture.get(random);
 	}
 	
 	@Override
@@ -26,6 +29,14 @@ public class Cheat extends Item{
 
 	public void setLesson(Item lesson) {
 		this.lesson = lesson;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 }

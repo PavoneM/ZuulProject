@@ -6,7 +6,7 @@ public class Time extends Observable implements Runnable{
 	
 	private int day;
 	private int hour;
-	private int second;
+	private int minutes;
 	
 	private String[] days = {Game.language.get("monday"), Game.language.get("tuesday"),
 			Game.language.get("wednesday"), Game.language.get("thursday"), Game.language.get("friday")};
@@ -15,7 +15,7 @@ public class Time extends Observable implements Runnable{
 		
 		day=0;
 		hour=8;
-		second=0;
+		minutes=0;
 		
 		setChanged();
 		notifyObservers(hour);
@@ -24,11 +24,11 @@ public class Time extends Observable implements Runnable{
 			try { Thread.sleep(100); }
 			catch (Exception e) {e.printStackTrace();}
 			
-			second++;
+			minutes++;
 			
-			if(second>=60){
+			if(minutes>=60){
 				hour++;
-				second=0;
+				minutes=0;
 				if(hour>=18){
 					day++;
 					hour=8;
@@ -52,7 +52,7 @@ public class Time extends Observable implements Runnable{
 	}
 	
 	public void setHour(int hour) {
-		this.second=0;
+		this.minutes=0;
 		if(hour>=18)
 			this.hour = 8 + (this.hour-18);
 		else 
@@ -63,7 +63,7 @@ public class Time extends Observable implements Runnable{
 	
 	public String getTime(){
 		String theDay = days[day];
-		return Game.language.get("today")+ theDay +"   "+String.format("%02d", hour)+":"+String.format("%02d", second);
+		return Game.language.get("today")+ theDay +"   "+String.format("%02d", hour)+":"+String.format("%02d", minutes);
 	}
 
 	public void increaseDay() {

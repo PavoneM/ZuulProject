@@ -45,7 +45,7 @@ public class Config {
 		langEn.put("nodoor", "There is no door !");
 		langEn.put("errorcheck", "Error : Check + direction.");
 		langEn.put("noplanning", "Error : your room doesn't have a planning");
-		langEn.put("check?", "Did you check the planning on the door ? (yes/no");
+		langEn.put("check?", "Did you check the planning on the door ? (yes/no)");
 		langEn.put("nocheck", "Ok, so check it with 'check + direction'");
 		langEn.put("invalplanning", "Your command is invalid. Check the planning before entering the room");
 		langEn.put("quitwhat", "Quit what ?");
@@ -124,10 +124,11 @@ public class Config {
 		langEn.put("youareinlecture", "You are in a lecture of ");
 		langEn.put("toobadoop", "Too bad ! you are in OOP course so you have to wait until it ends ! Sorry :(");
 		langEn.put("welcomelibrary", "Welcome to the Library ! Here you can read books, and you can learn new lessons!\n");
-		langEn.put("welcomelunchroom","Welcome to the lunchroom. You can drink coffee or play the babyfoot. If you play the babyfoot, you'll forget a random lesson. Type 'drink' to play (");
+		langEn.put("welcomelunchroom","Welcome to the lunchroom. You can drink coffee or play the babyfoot. \nIf you play the babyfoot, you'll forget a random lesson. \nType 'drink' to play ");
 		langEn.put("book", "Book");
-		langEn.put("", "");
-		langEn.put("", "");
+		langEn.put("cheat", "cheat");
+		langFr.put("retcheat", "Your answer sheet say that the anwser is");
+		langEn.put("haventlecture", "Before coming to lab session you have to go on the lecture");
 		langEn.put("", "");
 		langEn.put("", "");
 		langEn.put("", "");
@@ -164,7 +165,7 @@ public class Config {
 		langFr.put("nodoor", "Il n'y a pas de porte !");
 		langFr.put("errorcheck", "Erreur : Check + direction.");
 		langFr.put("noplanning", "Erreur : cette salle n'a pas de planning");
-		langFr.put("check?", "Avez vous regardé le planning sur la porte ? (oui/non");
+		langFr.put("check?", "Avez vous regardé le planning sur la porte ? (oui/non)");
 		langFr.put("nocheck", "Ok, vérifiez le avec 'check + direction'");
 		langFr.put("invalplanning", "Votre commande n'est pas valide, regardez le planning avant d'entrer dans la salle");
 		langFr.put("quitwhat", "Que voulez vous quitter ?");
@@ -243,8 +244,11 @@ public class Config {
 		langFr.put("youareinlecture", "Vous êtes dans un cours de ");
 		langFr.put("toobadoop", "Vous êtes dans un cours d'OOP et devez attendre qu'il se termine. Dommage.");
 		langFr.put("welcomelibrary", "Bienvenue dans la bibliothèque ! Ici, vous pouvez lire et découvrir de nouvelles leçons !\n");
-		langFr.put("welcomelunchroom","Bienvenue dans le foyer. Vous pouvez boire du café ou jouer au babyfoot. Si vous jouez au babyfoot, vous oublierez une leçon aléatoire. Ecrivez 'boire' pour jouer (");
+		langFr.put("welcomelunchroom","Bienvenue dans le foyer. Vous pouvez boire du café ou jouer au babyfoot. \nSi vous jouez au babyfoot, vous oublierez une leçon aléatoire. \nEcrivez 'boire' pour jouer ");
 		langFr.put("book", "Livre");
+		langFr.put("cheat", "feuille");
+		langFr.put("retcheat", "Votre antisèche vous dire que la reponse est");
+		langEn.put("haventlecture", "Avant de venir en TD il faut faire il cours !");
 		
 		
 		
