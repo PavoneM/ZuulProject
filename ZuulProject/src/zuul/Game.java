@@ -119,12 +119,18 @@ public class Game {
          classroom1.setExit(language.get("we"),corridor2);
          corridor2.setExit(language.get("so"),corridor3);
          ArrayList ligne1 = new ArrayList();
+         ligne1.add(null);
          ligne1.add(examroom1);
          ligne1.add(examroom2);
+         ligne1.add(null);
+         ligne1.add(null);
+         
          ArrayList ligne2 = new ArrayList();
+         ligne2.add(null);
          ligne2.add(corridor1);
          ligne2.add(corridor2);
          ligne2.add(classroom1);
+         ligne2.add(null);
 
 
          //ligne3
@@ -135,9 +141,11 @@ public class Game {
          classroom2.setExit(language.get("we"),corridor3);
          lab1.setExit("ea",corridor3);
          ArrayList ligne3 = new ArrayList();
+         ligne3.add(null);
          ligne3.add(lab1);
          ligne3.add(corridor3);
          ligne3.add(classroom2);
+         ligne3.add(null);
 
 
          //ligne 4
@@ -149,6 +157,7 @@ public class Game {
          lab2.setExit(language.get("we"),corridor4);
          library1.setExit(language.get("so"),corridor8);
          ArrayList ligne4 = new ArrayList();
+         ligne4.add(null);
          ligne4.add(classroom3);
          ligne4.add(corridor4);
          ligne4.add(lab2);
@@ -182,9 +191,12 @@ public class Game {
          classroom4.setExit(language.get("ea"),corridor9);
          lab3.setExit(language.get("we"),corridor9);
          ArrayList ligne6 = new ArrayList();
+         ligne6.add(null);
          ligne6.add(classroom4);
          ligne6.add(corridor9);
          ligne6.add(lab3);
+         ligne6.add(null);
+         
          //ligne7
          corridor10.setExit(language.get("no"),corridor9);
          corridor10.setExit(language.get("we"),lab4);
@@ -193,9 +205,11 @@ public class Game {
          classroom5.setExit(language.get("we"),corridor10);
          lab4.setExit(language.get("ea"),corridor10);
          ArrayList ligne7 = new ArrayList();
+         ligne7.add(null);
          ligne7.add(lab4);
          ligne7.add(corridor10);
          ligne7.add(classroom5);
+         ligne7.add(null);
 
          //ligne8
          corridor11.setExit(language.get("no"),corridor10);
@@ -205,14 +219,20 @@ public class Game {
          lab5.setExit(language.get("we"),corridor11);
          library2.setExit(language.get("ea"),corridor11);
          ArrayList ligne8 = new ArrayList();
+         ligne8.add(null);
          ligne8.add(library2);
          ligne8.add(corridor11);
          ligne8.add(lab5);
+         ligne8.add(null);
 
          //ligne 9
          examroom3.setExit(language.get("no"),corridor11);
           ArrayList ligne9 = new ArrayList();
+          ligne9.add(null);
+          ligne9.add(null);
           ligne9.add(examroom3);
+          ligne9.add(null);
+          ligne9.add(null);
 
         // ajout des lignes à la grille
           map.add(ligne1);
@@ -256,15 +276,21 @@ public class Game {
     	
     	// Coordonées de la salle courante 
     	int currentI=0, currentJ=0;
-    	
+
     	// Tant qu'on ne trouve pas la salle dans la grille on incrémente les coordonées
     	while((currentJ = map.get(currentI).indexOf(student.getCurrentRoom()) ) == -1 )
     		currentI++;
-    	
+    	System.out.println("Current I "+ currentI + " Current J "+ currentJ + " mapsize "+ map.size() + " " + map.get(4).size());
     	// Itération sur toute la grille
     	for(int i=0; i<map.size(); i++){
         	System.out.print("\t");
     		for(int j=0; j<map.get(i).size(); j++){
+    			
+    			// Verification que ce n'est pas null
+    			if(map.get(i).get(j) == null ){
+    				System.out.print("[  ]");
+    				continue;
+    			}
     			
     			// Recherche du caractère à afficher
     			String icon = map.get(i).get(j).getIcon();
@@ -294,7 +320,7 @@ public class Game {
     				System.out.print("[??]");
     			
     			// Si on ne connait pas la salle, ou il n'existe pas de salle on affiche des espaces
-    			else System.out.print("    ");
+    			else System.out.print("[  ]");
     
     		}
     		System.out.print("\n");
@@ -814,7 +840,7 @@ public class Game {
 	public static void main(String[] args) throws Exception {
 		
 		// Creation du jeu
-		Game game = new Game(Config.langFr);
+		Game game = new Game(Config.langEn);
 		
 		// Afficher la page de bienvenu
         game.printWelcome();
