@@ -1,3 +1,14 @@
+/**
+ * Cette classe fait partie du jeu "World of Zuul".
+ * "World of Zuul" est un jeu très simple qui a été développé dans le cadre
+ * du module de POO à Polytech Nice.
+ *
+ * Cette classe fait partie du package zuul.room
+ * 
+ * @author  Manuel Pavone et Vincent Forquet
+ * @version 30.11.2014
+ */
+
 package zuul.room;
 
 import zuul.Game;
