@@ -19,10 +19,6 @@ public class Student {
 	public Student(){
 		energy = 10;
 		backpack = new ArrayList<Item>();
-		backpack = (ArrayList<Item>) Config.oopLecture.clone();
-		backpack.remove(3);
-		backpack.remove(6);
-		energy=20;
 	}
 	
 	public ArrayList<Item> getBackpack() {
