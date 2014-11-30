@@ -48,83 +48,184 @@ public class Game {
     }
     
     /**
-     * Create a static map for begin a game.
-     * The map is composed by:
-     * 	- 3 corridors
-     *  - One of each room
+     * create the static map of the game
      */
     public void generateStaticMap(){
     	
     	// Creation des salles
-    	Classroom classroom = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
-    	ExamRoom examroom = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
-        Library library = new Library(language.get("li"), "Li", Config.oopLecture);
-        Lab lab = new Lab(language.get("la"), "La", generateStaticPlanning());
+    	Classroom classroom1 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
+    	Classroom classroom2 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
+    	Classroom classroom3 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
+    	Classroom classroom4 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
+    	Classroom classroom5 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
+    	ExamRoom examroom1 = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
+    	ExamRoom examroom2 = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
+    	ExamRoom examroom3 = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
+        Library library1 = new Library(language.get("li"), "Li", Config.oopLecture);
+        Library library2 = new Library(language.get("li"), "Li", Config.oopLecture);
+        Lab lab1 = new Lab(language.get("la"), "La", generateStaticPlanning());
+        Lab lab2 = new Lab(language.get("la"), "La", generateStaticPlanning());
+        Lab lab3 = new Lab(language.get("la"), "La", generateStaticPlanning());
+        Lab lab4 = new Lab(language.get("la"), "La", generateStaticPlanning());
+        Lab lab5 = new Lab(language.get("la"), "La", generateStaticPlanning());
         LunchRoom lunchroom = new LunchRoom(language.get("lu"), "Lu",.1f);
         
         time = new Time();
         
-        time.addObserver(classroom);
-        time.addObserver(examroom);
-        time.addObserver(lab);
-        time.addObserver(library);
+        time.addObserver(classroom1);
+        time.addObserver(classroom2);
+        time.addObserver(classroom3);
+        time.addObserver(classroom4);
+        time.addObserver(classroom5);
+        time.addObserver(examroom1);
+        time.addObserver(examroom2);
+        time.addObserver(examroom3);
+        time.addObserver(lab1);
+        time.addObserver(lab2);
+        time.addObserver(lab3);
+        time.addObserver(lab4);
+        time.addObserver(lab5);
+        time.addObserver(library1);
+        time.addObserver(library2);
         
         new Thread(time).start();
-        
-        Corridor corridor1 = new Corridor(language.get("co"), "Co", false, false);
-        Corridor corridor2 = new Corridor(language.get("co"), "Co", true, false);
+        //couloir ligne 2
+        Corridor corridor1 = new Corridor(language.get("co"), "Co", true, false);
+        Corridor corridor2 = new Corridor(language.get("co"), "Co", false, false);
+        //couloir ligne 3
         Corridor corridor3 = new Corridor(language.get("co"), "Co", false, true);
+        //couloir ligne 4
+        Corridor corridor4 = new Corridor(language.get("co"), "Co", false, true);
+        //couloir ligne 5
+        Corridor corridor5 = new Corridor(language.get("co"), "Co", true, false);
+        Corridor corridor6 = new Corridor(language.get("co"), "Co", false, false);
+        Corridor corridor7 = new Corridor(language.get("co"), "Co", false, true);
+        Corridor corridor8 = new Corridor(language.get("co"), "Co", false, false);
+        //couloir ligne 6
+        Corridor corridor9 = new Corridor(language.get("co"), "Co", false, false);
+        //couloir ligne 7
+		Corridor corridor10 = new Corridor(language.get("co"), "Co", false, false);
+		// couloir ligne 8
+        Corridor corridor11 = new Corridor(language.get("co"), "Co", true, false);
         
-        ///////
-        /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
-        ///////
-        
-        // Installation des sorties pour chaque salle
-        // Colonne 1
-        corridor1.setExit(language.get("no"), classroom);
-        corridor1.setExit(language.get("so"), library);
-        corridor1.setExit(language.get("ea"), corridor2);
-        classroom.setExit(language.get("we"), corridor1);
-        library.setExit(language.get("no"), corridor1);
+       	//ligne 1 & 2
+         examroom1.setExit(language.get("so"),corridor1);
+         examroom2.setExit(language.get("so"),corridor2);
+         corridor1.setExit(language.get("no"),examroom1);
+         corridor1.setExit(language.get("ea"),corridor2);
+         corridor2.setExit(language.get("we"),corridor1);
+         corridor2.setExit(language.get("no"),examroom2);
+         corridor2.setExit(language.get("ea"),classroom1);
+         classroom1.setExit(language.get("we"),corridor2);
+         corridor2.setExit(language.get("so"),corridor3);
+         ArrayList ligne1 = new ArrayList();
+         ligne1.add(examroom1);
+         ligne1.add(examroom2);
+         ArrayList ligne2 = new ArrayList();
+         ligne2.add(corridor1);
+         ligne2.add(corridor2);
+         ligne2.add(classroom1);
 
-        // Colonne 2
-        corridor2.setExit(language.get("no"), lab);
-        corridor2.setExit(language.get("so"), lunchroom);
-        corridor2.setExit(language.get("ea"), corridor3);
-        corridor2.setExit(language.get("we"), corridor1);
-        lab.setExit(language.get("so"), corridor2);
-        lunchroom.setExit(language.get("no"), corridor2);
-        
-        // Colonne 3
-        corridor3.setExit(language.get("no"), examroom);
-        corridor3.setExit(language.get("we"), corridor2);        
-        examroom.setExit(language.get("so"), corridor3);
-        
-        // Creation de la map
-        // Ligne 1
-        ArrayList ligne1 = new ArrayList();
-        ligne1.add(classroom);
-        ligne1.add(lab);
-        ligne1.add(examroom);
-        
-        // Ligne 2
-        ArrayList ligne2 = new ArrayList();
-        ligne2.add(corridor1);
-        ligne2.add(corridor2);
-        ligne2.add(corridor3);
-        
-        // Ligne 3
-        ArrayList ligne3 = new ArrayList();
-        ligne3.add(library);
-        ligne3.add(lunchroom);
-        
-        // Ajout des lignes à la grille
-        map.add(ligne1);
-        map.add(ligne2);
-        map.add(ligne3);
-        
-        // Placement du joueur dans le couloir d'entrée
-        student.setCurrentRoom(corridor1);
+
+         //ligne3
+         corridor3.setExit(language.get("no"),corridor2);
+         corridor3.setExit(language.get("ea"),classroom2);
+         corridor3.setExit(language.get("we"),lab1);
+         corridor3.setExit(language.get("so"),corridor4);
+         classroom2.setExit(language.get("we"),corridor3);
+         lab1.setExit("ea",corridor3);
+         ArrayList ligne3 = new ArrayList();
+         ligne3.add(lab1);
+         ligne3.add(corridor3);
+         ligne3.add(classroom2);
+
+
+         //ligne 4
+         corridor4.setExit(language.get("no"),corridor3);
+         corridor4.setExit(language.get("we"),classroom3);
+         corridor4.setExit(language.get("ea"),lab2);
+         corridor4.setExit(language.get("so"),corridor6);
+         classroom3.setExit(language.get("ea"),corridor4);
+         lab2.setExit(language.get("we"),corridor4);
+         library1.setExit(language.get("so"),corridor8);
+         ArrayList ligne4 = new ArrayList();
+         ligne4.add(classroom3);
+         ligne4.add(corridor4);
+         ligne4.add(lab2);
+         ligne4.add(library1);
+
+
+         //ligne5
+         lunchroom.setExit(language.get("ea"),corridor5);
+         corridor5.setExit(language.get("we"),lunchroom);
+         corridor5.setExit(language.get("ea"),corridor6);
+         corridor6.setExit(language.get("we"),corridor5);
+         corridor6.setExit(language.get("no"),corridor4);
+         corridor6.setExit(language.get("so"),corridor9);
+         corridor6.setExit(language.get("ea"),corridor7);
+         corridor7.setExit(language.get("we"),corridor6);
+         corridor7.setExit(language.get("ea"),corridor8);
+         corridor8.setExit(language.get("no"),library1);
+         corridor8.setExit(language.get("we"),corridor7);
+         ArrayList ligne5 = new ArrayList();
+         ligne5.add(lunchroom);
+         ligne5.add(corridor5);
+         ligne5.add(corridor6);
+         ligne5.add(corridor7);
+         ligne5.add(corridor8);
+
+         //ligne 6 
+         corridor9.setExit(language.get("no"),corridor6);
+         corridor9.setExit(language.get("we"),classroom4);
+         corridor9.setExit(language.get("ea"),lab3);
+         corridor9.setExit(language.get("so"),corridor10);
+         classroom4.setExit(language.get("ea"),corridor9);
+         lab3.setExit(language.get("we"),corridor9);
+         ArrayList ligne6 = new ArrayList();
+         ligne6.add(classroom4);
+         ligne6.add(corridor9);
+         ligne6.add(lab3);
+         //ligne7
+         corridor10.setExit(language.get("no"),corridor9);
+         corridor10.setExit(language.get("we"),lab4);
+         corridor10.setExit(language.get("ea"),classroom5);
+         corridor10.setExit(language.get("so"),corridor11);
+         classroom5.setExit(language.get("we"),corridor10);
+         lab4.setExit(language.get("ea"),corridor10);
+         ArrayList ligne7 = new ArrayList();
+         ligne7.add(lab4);
+         ligne7.add(corridor10);
+         ligne7.add(classroom5);
+
+         //ligne8
+         corridor11.setExit(language.get("no"),corridor10);
+         corridor11.setExit(language.get("we"),library2);
+         corridor11.setExit(language.get("ea"),lab5);
+         corridor11.setExit(language.get("so"),examroom3);
+         lab5.setExit(language.get("we"),corridor11);
+         library2.setExit(language.get("ea"),corridor11);
+         ArrayList ligne8 = new ArrayList();
+         ligne8.add(library2);
+         ligne8.add(corridor11);
+         ligne8.add(lab5);
+
+         //ligne 9
+         examroom3.setExit(language.get("no"),corridor11);
+          ArrayList ligne9 = new ArrayList();
+          ligne9.add(examroom3);
+
+        // ajout des lignes à la grille
+          map.add(ligne1);
+          map.add(ligne2);
+          map.add(ligne3);
+          map.add(ligne4);
+          map.add(ligne5);
+          map.add(ligne6);
+          map.add(ligne7);
+          map.add(ligne8);
+          map.add(ligne9);
+
+        student.setCurrentRoom(corridor8);
         
         // Découverte de la zone de départ
         student.getCurrentRoom().discover();
