@@ -64,17 +64,16 @@ public class Student {
 	
 	public void removeRandomLecture(){
 		if(backpack.size() == 0){
-			System.out.println("You are lucky, you don't have more items in your backpack");
 			return;
 		}
 		int random = (int)(Math.random() * (backpack.size()-1));
-		System.out.println("You lost the item : " + backpack.get(random));
+		System.out.println(Game.language.get("lostitem") + backpack.get(random));
 		backpack.remove(random);
 	}
 	
 	public String displayBackpack(){
 		String ret = "";
-		if( backpack.size() == 0 ) return "You have 0 items on your back";
+		if( backpack.size() == 0 ) return Game.language.get("0item");
 		for(int i=0;i<backpack.size();i++)
 			ret+="- "+backpack.get(i)+"\n";
 		return ret;
@@ -82,11 +81,9 @@ public class Student {
 	
 	public boolean checkBackpack(){
 		for(int i = 0; i < Config.oopLecture.size();i++){
-			System.out.println(Config.oopLecture.get(i));
 			if (!backpack.contains(Config.oopLecture.get(i)))
 					return false;
 		}
-		System.out.println("JE RETOURNE TRUE");
 		return true;
 	}
 }

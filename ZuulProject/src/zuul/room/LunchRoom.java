@@ -1,5 +1,5 @@
 package zuul.room;
-
+import zuul.Game;
 public class LunchRoom extends Room{
 	
 	private float chance;
@@ -11,9 +11,8 @@ public class LunchRoom extends Room{
 
 	@Override
 	public String getLongDescription(){
-		return "You are " + description +"."
-				+ "\nHere you can drink coffee for charge your energy bar ! But you can also be attracted by the Babyfoot ! ("+(chance*100)+"% chance)"
-				+ "\nIf you want to drink a coffee type 'drink'";
+		return Game.language.get("youare") + description +"."
+				+ Game.language.get("welcomelunchroom")+(chance*100)+"% chance)";
 	}
 	
 	public float getChance() {

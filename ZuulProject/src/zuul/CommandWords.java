@@ -13,13 +13,18 @@ package zuul;
 
 public class CommandWords {
 	// a constant array that holds all valid command words
-	private static final String[] validCommands = { "go", "quit", "help",
-			"switch", "yes", "no" , "time", "check", "drink", "map", "energy", "wait","backpack","take", "true", "false"};
+	private String[] validCommands;
 
 	/**
 	 * Constructor - initialise the command words.
 	 */
 	public CommandWords() {
+		String[] validCommands1 = { Game.language.get("go"), Game.language.get("quit"), Game.language.get("help"),
+				Game.language.get("switch"), Game.language.get("yes"), Game.language.get("non") , Game.language.get("time"), 
+				Game.language.get("check"), Game.language.get("drink"), Game.language.get("map"), Game.language.get("energy"), 
+				Game.language.get("wait"),Game.language.get("backpack"),Game.language.get("take"), Game.language.get("true"), 
+				Game.language.get("false")};
+		validCommands=validCommands1;
 		// nothing to do at the moment...
 	}
 

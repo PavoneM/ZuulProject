@@ -1,10 +1,11 @@
 package zuul.room;
 
 import java.util.ArrayList;
+import zuul.Game;
+
 import java.util.HashMap;
 import java.util.Set;
 import zuul.item.Item;
-
 public class Room {
     protected String description;
     protected String icon;
@@ -61,7 +62,7 @@ public class Room {
      * @return A long description of this room
      */
     public String getLongDescription() {
-        return "You are " + description + ".\n==>" + getExitString();
+        return Game.language.get("youare") + description + ".\n==>" + getExitString();
     }
 
     /**
@@ -71,7 +72,7 @@ public class Room {
      * @return Details of the room's exits.
      */
     protected String getExitString() {
-        String returnString = "Exits:";
+        String returnString = Game.language.get("exits");
         Set<String> keys = exits.keySet();
         for (String exit : keys) {
             returnString += " " + exit;

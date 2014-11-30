@@ -1,6 +1,7 @@
 package zuul;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 import java.util.prefs.BackingStoreException;
@@ -31,16 +32,19 @@ public class Game {
     private ArrayList<ArrayList<? extends Room>> map;
     
     private Time time;
-	
+    
+	public static HashMap<String,String> language;
     /**
      * Create the game and initialise its internal map.
      */
-    public Game() {
+    public Game(HashMap<String,String> lang) { 
+    	language = lang;    	
     	Config.initialize();
         student = new Student();
         map = new ArrayList<ArrayList<? extends Room>>();
         parser = new Parser();
         generateStaticMap();
+       
     }
     
     /**
@@ -52,11 +56,11 @@ public class Game {
     public void generateStaticMap(){
     	
     	// Creation des salles
-    	Classroom classroom = new Classroom("in a classroom", "Cl", generateStaticPlanning());
-    	ExamRoom examroom = new ExamRoom("in a exam room", "Ex", generateStaticPlanning());
-        Library library = new Library("in the library", "Li", Config.oopLecture);
-        Lab lab = new Lab("in a computing lab", "La", generateStaticPlanning());
-        LunchRoom lunchroom = new LunchRoom("in the lunchroom", "Lu",.1f);
+    	Classroom classroom = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
+    	ExamRoom examroom = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
+        Library library = new Library(language.get("li"), "Li", Config.oopLecture);
+        Lab lab = new Lab(language.get("la"), "La", generateStaticPlanning());
+        LunchRoom lunchroom = new LunchRoom(language.get("lu"), "Lu",.1f);
         
         time = new Time();
         
@@ -67,9 +71,9 @@ public class Game {
         
         new Thread(time).start();
         
-        Corridor corridor1 = new Corridor("in a corridor1", "Co", false, false);
-        Corridor corridor2 = new Corridor("in a corridor2", "Co", true, false);
-        Corridor corridor3 = new Corridor("in a corridor3", "Co", false, true);
+        Corridor corridor1 = new Corridor(language.get("co"), "Co", false, false);
+        Corridor corridor2 = new Corridor(language.get("co"), "Co", true, false);
+        Corridor corridor3 = new Corridor(language.get("co"), "Co", false, true);
         
         ///////
         /////// ICI OPTTIMISATION AVEC LE SET EXIT (Creer automatiquement la deuxième sortie)
@@ -77,24 +81,24 @@ public class Game {
         
         // Installation des sorties pour chaque salle
         // Colonne 1
-        corridor1.setExit("north", classroom);
-        corridor1.setExit("south", library);
-        corridor1.setExit("east", corridor2);
-        classroom.setExit("south", corridor1);
-        library.setExit("north", corridor1);
+        corridor1.setExit(language.get("no"), classroom);
+        corridor1.setExit(language.get("so"), library);
+        corridor1.setExit(language.get("ea"), corridor2);
+        classroom.setExit(language.get("we"), corridor1);
+        library.setExit(language.get("no"), corridor1);
 
         // Colonne 2
-        corridor2.setExit("north", lab);
-        corridor2.setExit("south", lunchroom);
-        corridor2.setExit("east", corridor3);
-        corridor2.setExit("west", corridor1);
-        lab.setExit("south", corridor2);
-        lunchroom.setExit("north", corridor2);
+        corridor2.setExit(language.get("no"), lab);
+        corridor2.setExit(language.get("so"), lunchroom);
+        corridor2.setExit(language.get("ea"), corridor3);
+        corridor2.setExit(language.get("we"), corridor1);
+        lab.setExit(language.get("so"), corridor2);
+        lunchroom.setExit(language.get("no"), corridor2);
         
         // Colonne 3
-        corridor3.setExit("north", examroom);
-        corridor3.setExit("west", corridor2);        
-        examroom.setExit("south", corridor3);
+        corridor3.setExit(language.get("no"), examroom);
+        corridor3.setExit(language.get("we"), corridor2);        
+        examroom.setExit(language.get("so"), corridor3);
         
         // Creation de la map
         // Ligne 1
@@ -133,11 +137,11 @@ public class Game {
     	// TODO effacer les lectures quand le fichier de config sera bon
     	
     	for(int i=0;i<5;i++){
-    		table[0][i] = new Lecture("English", "ENG",null);
-    		table[1][i] = new Lecture("Object Oriented Programming", "OOP", Config.oopLecture);
-    		table[2][i] = new Lecture("Maths", "MAT", null);
-    		table[3][i] = new Lecture("Alg Num", "ALG", null);
-    		table[4][i] = new Lecture("Assembly", "ASS", null);
+    		table[0][i] = new Lecture(language.get("eng"), "ENG",null);
+    		table[1][i] = new Lecture(language.get("oop"), "OOP", Config.oopLecture);
+    		table[2][i] = new Lecture(language.get("mat"), "MAT", null);
+    		table[3][i] = new Lecture(language.get("alg"), "ALG", null);
+    		table[4][i] = new Lecture(language.get("ass"), "ASS", null);
     	}
     	
     	Planning p = new Planning(table);
@@ -173,19 +177,19 @@ public class Game {
     				System.out.print("["+icon+"]");
     			
     			// Si on peut aller au nord, on affiche [?]
-    			else if(student.getCurrentRoom().existexit("north") && i == (currentI-1) && j == currentJ && !map.get(i).get(j).isDiscovered())
+    			else if(student.getCurrentRoom().existexit(language.get("no")) && i == (currentI-1) && j == currentJ && !map.get(i).get(j).isDiscovered())
     				System.out.print("[??]");
     			
     			// Si on peut aller au sud, on affiche [?]
-    			else if(student.getCurrentRoom().existexit("south") && i == (currentI+1) && j == currentJ && !map.get(i).get(j).isDiscovered())
+    			else if(student.getCurrentRoom().existexit(language.get("so")) && i == (currentI+1) && j == currentJ && !map.get(i).get(j).isDiscovered())
     				System.out.print("[??]");
     			
     			// Si on peut aller au ouest, on affiche [?]
-    			else if(student.getCurrentRoom().existexit("west") && i == currentI && j == (currentJ-1) && !map.get(i).get(j).isDiscovered())
+    			else if(student.getCurrentRoom().existexit(language.get("we")) && i == currentI && j == (currentJ-1) && !map.get(i).get(j).isDiscovered())
     				System.out.print("[??]");
     			
     			// Si on peut aller au est, on affiche [?]
-    			else if(student.getCurrentRoom().existexit("east") && i == currentI && j == (currentJ+1) && !map.get(i).get(j).isDiscovered())
+    			else if(student.getCurrentRoom().existexit(language.get("ea")) && i == currentI && j == (currentJ+1) && !map.get(i).get(j).isDiscovered())
     				System.out.print("[??]");
     			
     			// Si on ne connait pas la salle, ou il n'existe pas de salle on affiche des espaces
@@ -202,7 +206,7 @@ public class Game {
      * Display the energy of the player
      */
     private void energyBar(){
-    	System.out.print("\nYour energy : ");
+    	System.out.print("\n"+language.get("nrj"));
     	System.out.print("|| ");
     	for (int i = 1; i<= 20; i++){
     		if(i<=student.getEnergy()) System.out.print((char)248+" ");
@@ -215,8 +219,7 @@ public class Game {
      */
     private void printWelcome() {
         System.out.println();
-        System.out.println("Welcome on the Polytech'Groland building!");
-        System.out.println("Type 'help' if you need help.");
+        System.out.println(language.get("wel"));
         System.out.println();
         displayMap();
         System.out.println(student.getCurrentRoom().getLongDescription());
@@ -236,7 +239,7 @@ public class Game {
         
     	// Test si la commande existe
         if (command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println(language.get("dunno"));
             return false;
         }
         
@@ -244,69 +247,69 @@ public class Game {
         String commandWord = command.getCommandWord();
         
         // Afficher l'aide
-        if (commandWord.equals("help")) {
+        if (commandWord.equals(language.get("help"))) {
             printHelp();
         }
         
         // Aller dans une direction
-        else if (commandWord.equals("go")) {
+        else if (commandWord.equals(language.get("go"))) {
             wantToQuit = goRoom(command);
         }
         
         // Afficher la carte
-        else if (commandWord.equals("map")) {
+        else if (commandWord.equals(language.get("map"))) {
             displayMap();
         } 
         
         // Afficher le backpack
-        else if (commandWord.equals("backpack")) {
+        else if (commandWord.equals(language.get("backpack"))) {
             displayBackpack();
         } 
         
         // Afficher le temps
-        else if (commandWord.equals("time")) {
+        else if (commandWord.equals(language.get("time"))) {
             System.out.println(time.getTime());
         }
         
         // Attendre
-        else if (commandWord.equals("wait")) {
+        else if (commandWord.equals(language.get("wait"))) {
             waiting(command);
         } 
         
         // Montrer l'énergie
-        else if (commandWord.equals("energy")) {
+        else if (commandWord.equals(language.get("energy"))) {
             energyBar();
         } 
         
         // Allumer les lumières
-        else if (commandWord.equals("take")) {
+        else if (commandWord.equals(language.get("take"))) {
             if( student.getCurrentRoom() instanceof Corridor )
             	if( ((Corridor) student.getCurrentRoom()).isLight() ) take(command);
-            	else System.out.println("You can't take anything until the lights are on !");
-            else System.out.println("You are not in a Corridor, there is nothing to take");
+            	else System.out.println(language.get("cantlights"));
+            else System.out.println(language.get("notcorrit"));
         }
         
         // Allumer les lumières
-        else if (commandWord.equals("switch")) {
+        else if (commandWord.equals(language.get("switch"))) {
             if( student.getCurrentRoom() instanceof Corridor ) switchLight(command);
-            else System.out.println("You are not in a Corridor, there is no light to switch on/off...");
+            else System.out.println(language.get("notcorri"));
         }
         
-        else if (commandWord.equals("check")) {
+        else if (commandWord.equals(language.get("check"))) {
         	checkPlanning(command);
         }
         
-        else if (commandWord.equals("drink") && student.getCurrentRoom() instanceof LunchRoom) {
+        else if (commandWord.equals(language.get("drink")) && student.getCurrentRoom() instanceof LunchRoom) {
         	if(student.getEnergy() < 20 ) drink();
-        	else System.out.println("Sorry but you can't drink more because your energy is full");
+        	else System.out.println(language.get("maxnrj"));
         }
         
         // Quitter le jeu
-        else if (commandWord.equals("quit")) {
+        else if (commandWord.equals(language.get("quit"))) {
             wantToQuit = quit(command);
         }
         else {
-        	System.out.println("You can't do this action here ...");
+        	System.out.println(language.get("cantdothis"));
         }
         
         return wantToQuit;
@@ -317,7 +320,7 @@ public class Game {
     	// Test si la commande contient un deuxième mot
         if (!command.hasSecondWord()) {
             // Si il n'y a pas de deuxième mot
-            System.out.println("Take what?");
+            System.out.println(language.get("takewhat?"));
             return;
         }
 		
@@ -326,21 +329,21 @@ public class Game {
         String secWord = command.getSecondWord();
         
         if ( !secWord.equals("cheat") && !secWord.equals("tablet")){
-        	System.out.println("You can only take a Cheat or Tablet item sorry !");
+        	System.out.println(language.get("sheetortab"));
         	return;
         }
         
         if (secWord.equals("tablet") && cor.getTablet()!= null){
-        	System.out.print("You take the tablet and");
+        	System.out.print(language.get("tablettook"));
         	Item i = cor.getTablet().readTablet();
         	if(i == null){
-        		System.out.println(" you started to play a game ! You forgot a random lesson...");
+        		System.out.println(language.get("tabletgame"));
         		student.removeRandomLecture();
         	}
         	else{
-        		System.out.println(" you read something about "+i.getName());
+        		System.out.println(language.get("tabletread")+i.getName());
         		student.addBackpack(i);
-        		System.out.println("But your energy has decrease by 2");
+        		System.out.println(language.get("nrjdecrease"));
         		student.decreaseEnergy(2);
         	}
         	cor.setTablet(null);
@@ -348,14 +351,14 @@ public class Game {
         else if(secWord.equals("cheat") && cor.getPhotocopier()){
         	Cheat c = cor.getCheat();
         	if(c==null){
-        		System.out.println("There is no more cheat here...");
+        		System.out.println(language.get("nomorecheat"));
         		return; 
         	}
         	cor.setCheat(null);
-        	System.out.println("You find a "+c+"\nThe answer sheet in now on your backpack");
+        	System.out.println(language.get("youfind")+c+language.get("sheetbackpack"));
         	student.addBackpack(c);
         }
-        else System.out.println("There is no "+secWord +" in this corridor");
+        else System.out.println(language.get("thereisno")+secWord +language.get("incorri"));
         return;
 	}
 
@@ -368,7 +371,7 @@ public class Game {
     	// Test si la commande contient un deuxième mot
         if (!command.hasSecondWord()) {
             // Si il n'y a pas de deuxième mot
-            System.out.println("Wait how much?");
+            System.out.println(language.get("waithowmuch"));
             return;
         }
         
@@ -377,12 +380,12 @@ public class Game {
         try {
         	theTime = Integer.parseInt(command.getSecondWord());
         } catch (Exception e) {
-			System.out.println("Wait + integer please ! ");
+			System.out.println(language.get("waitpls"));
 			return;
 		}
 		
         if( theTime <8 || theTime > 17){
-        	System.out.println("The time must be between 8h and 17h");
+        	System.out.println(language.get("timebetween"));
         	return;
         }
         	
@@ -391,15 +394,15 @@ public class Game {
 
 	private void drink() {
 		if(((LunchRoom) student.getCurrentRoom()).drink()){
-			System.out.println("Good job ! You increased your energy !");
+			System.out.println(language.get("ggnrj"));
 			student.increaseEnergy(2);
 			energyBar();
 		}
 		else{
-			System.out.println("Sorry but you started to play babyfoot :(");
+			System.out.println(language.get("babyfoot"));
 			student.removeRandomLecture();
 		}
-		System.out.println("If you want to play again type another time 'drink'");
+		System.out.println(language.get("anotherdrink"));
 			
 	}
 
@@ -408,7 +411,7 @@ public class Game {
     	// Test si la commande contient un deuxième mot
         if (!cmd.hasSecondWord()) {
             // Si il n'y a pas de deuxième mot, afficher "go where"
-            System.out.println("Switch what? (on/off)");
+            System.out.println(language.get("switchwhat"));
             return;
         }
         
@@ -429,10 +432,7 @@ public class Game {
      * message and a list of the command words.
      */
     private void printHelp() {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
-        System.out.println();
-        System.out.println("Your command words are:");
+        System.out.println(language.get("intro"));
         parser.showCommands();
     }
 
@@ -449,7 +449,7 @@ public class Game {
     	// Test si la commande contient un deuxième mot
         if (!command.hasSecondWord()) {
             // Si il n'y a pas de deuxième mot, afficher "go where"
-            System.out.println("Go where?");
+            System.out.println(language.get("where"));
             return false;
         }
         
@@ -462,7 +462,7 @@ public class Game {
         // Si il y a pas de sortie, afficher "There is no door"
         if (nextRoom == null) {
         	displayMap();
-            System.out.println("There is no door!");
+            System.out.println(language.get("nodoor"));
         } 
         
         // Si la sortie existe
@@ -474,23 +474,21 @@ public class Game {
 					if(nextRoom instanceof ExamRoom){
 						
 						if(!student.checkBackpack()){
-							System.out.println("You must have listened all lectures and do all lab session to take the exam");
+							System.out.println(language.get("examchecklesson"));
 							return false;
 						}
 						if(student.getEnergy() < 18){
-							System.out.println("You must have more than 18 energy to pass the exam");
+							System.out.println(language.get("examchecknrj"));
 							return false;
 						}
-						System.out.println("Welcome to the exam room.");
-						System.out.println("After suffering from listening to all OOP courses, here is the final boss of this game.");
-						System.out.println("Prepare yourself for battle !");
+						System.out.println(language.get("exammessage"));
 						Quizz q = new Quizz(Config.QA, parser);
 						if(q.start()){
-							System.out.println("You are the best, you finished the game. Good job !!\nThanks for playing to this boring game !");
+							System.out.println(language.get("bravo"));
 							return true;
 						}
 						else{
-							System.out.println("You are bad man. You have to pass the exam another time sorry...\nYou have now 2 energy");
+							System.out.println(language.get("badgame"));
 							student.setEnergy(2);
 						}
 					}
@@ -505,16 +503,16 @@ public class Game {
 						Item currentLecture = nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom); 
 						
 						if(currentLecture == null){
-							System.out.println("You have already all the items of this course");
+							System.out.println(language.get("allitems"));
 							return false;
 						}
 						
 						// Afficher la description de la salle
 						System.out.println(nextRoom.getLongDescription());
-						System.out.println("The subject of the lesson is "+ currentLecture);
+						System.out.println(language.get("subjectof")+ currentLecture);
 	            		waitFor(10);
 	            		student.addBackpack(currentLecture);
-	            		System.out.println("\nYour energy has been decreased by 2\nYou can now go out thanks !");
+	            		System.out.println(language.get("coursefinished"));
 	            		student.decreaseEnergy(2);
 					}
 				}
@@ -522,7 +520,7 @@ public class Game {
 					// Afficher la carte
 					displayMap();
 					
-					System.out.println("Sorry it's not an OOP course you are now in your previous room");
+					System.out.println(language.get("notoop"));
 					
 					System.out.println(student.getCurrentRoom().getLongDescription());
 				}
@@ -538,7 +536,7 @@ public class Game {
 					// Afficher la description de la salle
 					System.out.println(student.getCurrentRoom().getLongDescription());
 					
-					System.out.println("Library is courently closed. Try to come beteween 12h and 16h");
+					System.out.println(language.get("libraryclosed"));
 
 					return false;
 				}
@@ -556,10 +554,10 @@ public class Game {
 				Item i = ((Library) nextRoom).getABook();
 				
 				if( i == null ) {
-					System.out.println("\n ==> You find a boring book but you continue to reading for fun");
+					System.out.println(language.get("boringbook"));
 				}
 				else{
-					System.out.println("\n ==>You find a book of "+i.toString());
+					System.out.println(language.get("goodbook")+i.toString());
 					student.addBackpack(i);
 				}
 				
@@ -567,7 +565,7 @@ public class Game {
 				
 				time.setHour(16);
 				
-				System.out.println("\nYour energy decrease by 2");
+				System.out.println(language.get("nrjdecrease"));
 				student.decreaseEnergy(2);
 			}
 			else{
@@ -596,7 +594,7 @@ public class Game {
     	// Test si la commande contient un deuxième mot
         if (!command.hasSecondWord()) {
             // Si il n'y a pas de deuxième mot, afficher "go where"
-            System.out.println("Error : Check + direction");
+            System.out.println(language.get("errorcheck"));
             return;
         }
         
@@ -609,14 +607,14 @@ public class Game {
         // Si il y a pas de sortie, afficher "There is no door"
         if (nextRoom == null) {
         	displayMap();
-            System.out.println("There is no door!");
+            System.out.println(language.get("nodoor"));
             return;
         }
         
         // Test si c'est une CourseRoom
         if (!(nextRoom.getClass().getSuperclass().getName().equals("zuul.room.CourseRoom"))) {
         	displayMap();
-            System.out.println("Your room haven't a planning !");
+            System.out.println(language.get("noplanning"));
             return;
         }
         
@@ -630,15 +628,14 @@ public class Game {
 		
 		String c = null;
 		
-		System.out.println("Have you checked the planning in front of the door? (yes/no)");
+		System.out.println(language.get("check?"));
 		
 		while((c=parser.getCommand().getCommandWord()) == null){
-			System.out.println("Your command doesn't exist");
-			System.out.println("Have you checked the planning in front of the door? (yes/no)");
+			System.out.println(language.get("invalplanning"));
 		}
     	
-		if(c.equals("yes")) return true;
-		else if( c.equals("no")){
+		if(c.equals(language.get("yes"))) return true;
+		else if( c.equals(language.get("non"))){
 	        // Clear de la console
 	    	for (int i = 0; i < 50; ++i) System.out.println();
 			// Afficher la carte
@@ -646,9 +643,9 @@ public class Game {
 
 			// Afficher la description de la salle
 			System.out.println(student.getCurrentRoom().getLongDescription() + "\n");
-			System.out.println("Ok, so check it with 'check + direction'");
+			System.out.println(language.get("nocheck"));
 		}
-		else System.out.println("Your command is invalid. Check the planning before entering");
+		else System.out.println(language.get("invalplanning"));
 		return false;
 	}
 
@@ -662,7 +659,7 @@ public class Game {
     	
     	// Si il y a un deuxième mot, ne pas quitter
         if (command.hasSecondWord()) {
-            System.out.println("Quit what?");
+            System.out.println(language.get("quitwhat"));
             return false;
         } 
         
@@ -691,7 +688,7 @@ public class Game {
     private void progressBar(int hour){
     	
     	if(hour==0){
-    		System.out.println("Invalid time: Type an hour different of current time");
+    		System.out.println(language.get("timerror"));
     		return;
     	}
     	
@@ -711,7 +708,7 @@ public class Game {
 	public static void main(String[] args) throws Exception {
 		
 		// Creation du jeu
-		Game game = new Game();
+		Game game = new Game(Config.langFr);
 		
 		// Afficher la page de bienvenu
         game.printWelcome();
@@ -729,7 +726,7 @@ public class Game {
         }
         
         // Afficher une phrase de conclusion du jeu
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println(language.get("byebye"));
 
 	}
 }

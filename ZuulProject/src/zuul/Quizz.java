@@ -29,8 +29,8 @@ public class Quizz {
 					System.out.println("Your answer must be 'true' or 'false'");
 					continue;
 				}
-				else if(!givenAnswer.equals("false") && !givenAnswer.equals("true")){ 
-					System.out.println("Your answer must be 'true' or 'false'");
+				else if(!givenAnswer.equals(Game.language.get("false")) && !givenAnswer.equals(Game.language.get("true"))){ 
+					System.out.println(Game.language.get("answermustbe"));
 					continue;
 				}
 				else break;
@@ -39,7 +39,7 @@ public class Quizz {
 				grade++;
 			else grade--;
 		}
-		System.out.println("Your mark is "+grade + "/" + Config.oopLecture.size()/2);
+		System.out.println(Game.language.get("yourmark")+grade + "/" + Config.oopLecture.size()/2);
 		if(grade >= Config.oopLecture.size()/4) return true;
 		else return false;
 	}

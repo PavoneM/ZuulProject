@@ -5,7 +5,7 @@ import java.util.Observer;
 
 import zuul.Lecture;
 import zuul.Time;
-
+import zuul.Game;
 public class CourseRoom extends Room implements Observer{
 	
 	private Planning planning;
@@ -31,10 +31,10 @@ public class CourseRoom extends Room implements Observer{
 	@Override
 	public String getLongDescription(){
 		String status = "";
-		if(currentCourse.isEqual("OOP")) status = "Too bad ! you are in OOP course so you have to wait until it ends ! Sorry :(";
+		if(currentCourse.isEqual("OOP")) status = Game.language.get("toobapoop");
 		
-		return "You are " + description +"."
-				+ "\nYou are in a lecture of "+ currentCourse.getName()
+		return Game.language.get("youare") + description +"."
+				+ Game.language.get("youareinlecture")+ currentCourse.getName()
 				+ "\n"+status;
 	}
 

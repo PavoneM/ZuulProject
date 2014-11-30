@@ -1,5 +1,5 @@
 package zuul.item;
-
+import zuul.Game;
 import zuul.Config;
 
 public class Cheat extends Item{
@@ -17,7 +17,7 @@ public class Cheat extends Item{
 	
 	@Override
 	public String toString(){
-		return super.getName() + " about " + lesson.getName();
+		return super.getName() + Game.language.get("about") + lesson.getName();
 	}
 
 	public Item getLesson() {

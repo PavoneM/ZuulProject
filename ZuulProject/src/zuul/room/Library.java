@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import zuul.Game;
 import zuul.Lecture;
 import zuul.Time;
 import zuul.item.Book;
@@ -16,13 +17,12 @@ public class Library extends Room implements Observer{
 	
 	public Library(String description, String icon, ArrayList<Item> l) {
 		super(description, icon);
-		book = new Book("Book", l);
+		book = new Book(Game.language.get("book"), l);
 	}
 	
 	@Override
 	public String getLongDescription(){
-		return "Welcome to the Library ! Here you can read books, and you can learn new lessons (or known lessons :D )\n"
-			 + "You can read only one book per day, so... Good luck !";
+		return Game.language.get("welcomelibrary");
 	}
 	 
 	public Item getABook(){

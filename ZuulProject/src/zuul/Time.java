@@ -8,7 +8,8 @@ public class Time extends Observable implements Runnable{
 	private int hour;
 	private int second;
 	
-	private String[] days = {"Monday", "Tuesday","Wednesday", "Thursday", "Friday"};
+	private String[] days = {Game.language.get("monday"), Game.language.get("tuesday"),
+			Game.language.get("wednesday"), Game.language.get("thursday"), Game.language.get("friday")};
 	
 	public void run() {
 		
@@ -62,7 +63,7 @@ public class Time extends Observable implements Runnable{
 	
 	public String getTime(){
 		String theDay = days[day];
-		return "Today we are "+ theDay +"   "+String.format("%02d", hour)+":"+String.format("%02d", second);
+		return Game.language.get("today")+ theDay +"   "+String.format("%02d", hour)+":"+String.format("%02d", second);
 	}
 
 	public void increaseDay() {
