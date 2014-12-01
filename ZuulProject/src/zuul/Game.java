@@ -31,9 +31,12 @@ public class Game {
     // Carte de polytech
     private ArrayList<ArrayList<? extends Room>> map;
     
+    // Attribut contentant le temps courrant
     private Time time;
     
+    // Langage charché à partir de la configuration
 	public static HashMap<String,String> language;
+	
     /**
      * Create the game and initialise its internal map.
      */
@@ -52,26 +55,35 @@ public class Game {
      */
     public void generateStaticMap(){
     	
-    	// Creation des salles
+    	// Creation des salles de cours
     	Classroom classroom1 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
     	Classroom classroom2 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
     	Classroom classroom3 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
     	Classroom classroom4 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
     	Classroom classroom5 = new Classroom(language.get("cl"), "Cl", generateStaticPlanning());
+    	
+    	// Creation des salles d'exam
     	ExamRoom examroom1 = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
     	ExamRoom examroom2 = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
     	ExamRoom examroom3 = new ExamRoom(language.get("ex"), "Ex", generateStaticPlanning());
+    	
+    	// Création des deux librairies
         Library library1 = new Library(language.get("li"), "Li", Config.oopLecture);
         Library library2 = new Library(language.get("li"), "Li", Config.oopLecture);
+        
+        // Creation des Lab
         Lab lab1 = new Lab(language.get("la"), "La", generateStaticPlanning());
         Lab lab2 = new Lab(language.get("la"), "La", generateStaticPlanning());
         Lab lab3 = new Lab(language.get("la"), "La", generateStaticPlanning());
         Lab lab4 = new Lab(language.get("la"), "La", generateStaticPlanning());
         Lab lab5 = new Lab(language.get("la"), "La", generateStaticPlanning());
+        
+        // Creation de la cafetéria
         LunchRoom lunchroom = new LunchRoom(language.get("lu"), "Lu",.1f);
         
         time = new Time();
         
+        // Ajout des observer à time
         time.addObserver(classroom1);
         time.addObserver(classroom2);
         time.addObserver(classroom3);
@@ -88,27 +100,36 @@ public class Game {
         time.addObserver(library1);
         time.addObserver(library2);
         
+        // Lancement du thread time
         new Thread(time).start();
-        //couloir ligne 2
+        
+        // Couloir ligne 2
         Corridor corridor1 = new Corridor(language.get("co"), "Co", true, false);
         Corridor corridor2 = new Corridor(language.get("co"), "Co", false, false);
-        //couloir ligne 3
+        
+        // Couloir ligne 3
         Corridor corridor3 = new Corridor(language.get("co"), "Co", false, true);
-        //couloir ligne 4
+        
+        // Couloir ligne 4
         Corridor corridor4 = new Corridor(language.get("co"), "Co", false, true);
-        //couloir ligne 5
+        
+        // Couloir ligne 5
         Corridor corridor5 = new Corridor(language.get("co"), "Co", true, false);
         Corridor corridor6 = new Corridor(language.get("co"), "Co", false, false);
         Corridor corridor7 = new Corridor(language.get("co"), "Co", false, true);
         Corridor corridor8 = new Corridor(language.get("co"), "Co", false, false);
-        //couloir ligne 6
+        
+        // Couloir ligne 6
         Corridor corridor9 = new Corridor(language.get("co"), "Co", false, false);
-        //couloir ligne 7
+        
+        // Couloir ligne 7
 		Corridor corridor10 = new Corridor(language.get("co"), "Co", false, false);
-		// couloir ligne 8
+		
+		// Couloir ligne 8
         Corridor corridor11 = new Corridor(language.get("co"), "Co", true, false);
         
-       	//ligne 1 & 2
+       	// Ligne 1 & 2
+         // Ajout des sorties
          examroom1.setExit(language.get("so"),corridor1);
          examroom2.setExit(language.get("so"),corridor2);
          corridor1.setExit(language.get("no"),examroom1);
@@ -251,20 +272,28 @@ public class Game {
         student.getCurrentRoom().discover();
     }
     
+    /**
+     * Génère un planning static pour chaque salle
+     * @return Planning correspondant pour chaque salle
+     */
     public Planning generateStaticPlanning(){
     	
+    	// Crée une matrice de lectures
     	Lecture[][] table = new Lecture[5][5];
     	
-    	// TODO effacer les lectures quand le fichier de config sera bon
+    	// Chaine statique des lessons
+    	String[] lectures = {"eng", "oop", "mat", "alg", "ass"};
     	
-    	for(int i=0;i<5;i++){
-    		table[0][i] = new Lecture(language.get("eng"), "ENG",null);
-    		table[1][i] = new Lecture(language.get("oop"), "OOP", Config.oopLecture);
-    		table[2][i] = new Lecture(language.get("mat"), "MAT", null);
-    		table[3][i] = new Lecture(language.get("alg"), "ALG", null);
-    		table[4][i] = new Lecture(language.get("ass"), "ASS", null);
-    	}
+    	// Itération sur tous les cours
+    	for(int i=0;i<5;i++)
+    		// Sur toutes les leçons
+    		for(int j=0 ; j<5 ; j++){
+    			int random = (int) (Math.random()*4);
+	    		if(random != 2) table[j][i] = new Lecture(language.get(lectures[random]), lectures[random].toUpperCase(),null);
+	    		else table[j][i] = new Lecture(language.get(lectures[random]), lectures[random].toUpperCase(), Config.oopLecture);
+    		}
     	
+    	// Creation du planning à partir de la table
     	Planning p = new Planning(table);
     	
     	return p;
@@ -280,7 +309,7 @@ public class Game {
     	// Tant qu'on ne trouve pas la salle dans la grille on incrémente les coordonées
     	while((currentJ = map.get(currentI).indexOf(student.getCurrentRoom()) ) == -1 )
     		currentI++;
-    	System.out.println("Current I "+ currentI + " Current J "+ currentJ + " mapsize "+ map.size() + " " + map.get(4).size());
+    	
     	// Itération sur toute la grille
     	for(int i=0; i<map.size(); i++){
         	System.out.print("\t");
@@ -329,16 +358,23 @@ public class Game {
     	System.out.println("\n/*********************************/\n");
     	
     }
+    
     /** 
      * Display the energy of the player
      */
     private void energyBar(){
+    	
+    	// Generation de l'énergie
     	System.out.print("\n"+language.get("nrj"));
     	System.out.print("|| ");
+    	
+    	// Creation de l'energy bar
     	for (int i = 1; i<= 20; i++){
     		if(i<=student.getEnergy()) System.out.print((char)248+" ");
     		else System.out.print("  ");
     	}
+    	
+    	// Fin de la barre d'énergie
     	System.out.println("||");
     }
     /**
@@ -408,24 +444,36 @@ public class Game {
             energyBar();
         } 
         
-        // Allumer les lumières
+        // Prendre un objet
         else if (commandWord.equals(language.get("take"))) {
+        	
+        	// On peut prendre que si il est dans un couloir
             if( student.getCurrentRoom() instanceof Corridor )
+            	
+            	// Si les lumières sont allumées
             	if( ((Corridor) student.getCurrentRoom()).isLight() ) take(command);
+            
+            	// Sinon on peut rien prendre
             	else System.out.println(language.get("cantlights"));
+            
+            // Sinon on est pas dans un couloir
             else System.out.println(language.get("notcorrit"));
         }
         
         // Allumer les lumières
         else if (commandWord.equals(language.get("switch"))) {
+        	
+        	// Si on est pas dans un couloir
             if( student.getCurrentRoom() instanceof Corridor ) switchLight(command);
             else System.out.println(language.get("notcorri"));
         }
         
+        // Check les planning
         else if (commandWord.equals(language.get("check"))) {
         	checkPlanning(command);
         }
         
+        // Boire du café
         else if (commandWord.equals(language.get("drink")) && student.getCurrentRoom() instanceof LunchRoom) {
         	if(student.getEnergy() < 20 ) drink();
         	else System.out.println(language.get("maxnrj"));
@@ -435,6 +483,8 @@ public class Game {
         else if (commandWord.equals(language.get("quit"))) {
             wantToQuit = quit(command);
         }
+        
+        // On peut pas faire l'action
         else {
         	System.out.println(language.get("cantdothis"));
         }
@@ -442,6 +492,10 @@ public class Game {
         return wantToQuit;
     }
     
+    /**
+     * Méthode pour prendre un objet en fonction d'une commande donnée
+     * @param command Commande rentrée par l'utilisateur
+     */
     private void take(Command command) {
     	
     	// Test si la commande contient un deuxième mot
@@ -451,36 +505,61 @@ public class Game {
             return;
         }
 		
+        // Creation d'une copie du couloir
         Corridor cor = (Corridor) student.getCurrentRoom();
         
+        // Récupération du deuxième mot
         String secWord = command.getSecondWord();
         
+        // Si le deuxième mot n'est pas cheat ou tablet
         if ( !secWord.equals(language.get("cheat")) && !secWord.equals(language.get("tablet"))){
         	System.out.println(language.get("sheetortab"));
         	return;
         }
         
+        // Si le deuxième mot est tablet et qu'il y a une tablette
         if (secWord.equals(language.get("tablet")) && cor.getTablet()!= null){
+        	
+        	// Prendre la tablette
         	System.out.print(language.get("tablettook"));
+        	
+        	// Item que nous renvois la tablette
         	Item i = cor.getTablet().readTablet();
+        	
+        	// Si il joue
         	if(i == null){
         		System.out.println(language.get("tabletgame"));
         		student.removeRandomLecture();
         	}
+        	
+        	// Si il lit un vrai cours
         	else{
+        		// Lire la tablet
         		System.out.println(language.get("tabletread")+i.getName());
+        		
+        		// Ajouter l'item au backpack
         		student.addBackpack(i);
+        		
+        		// On augmente l'énergie
         		System.out.println(language.get("nrjdecrease"));
         		student.decreaseEnergy(2);
         	}
         	cor.setTablet(null);
         }
+        
+        // Si le deuxième mot est cheat et qu'il y a une antisèche
         else if(secWord.equals(language.get("cheat")) && cor.getPhotocopier()){
+        	
+        	// Récupération du cheat
         	Cheat c = cor.getCheat();
+        	
+        	// Si il y a plus de cheat dans la salle
         	if(c==null){
         		System.out.println(language.get("nomorecheat"));
         		return; 
         	}
+        	
+        	// On ajoute le cheat au couloir
         	cor.setCheat(null);
         	System.out.println(language.get("youfind")+c+language.get("sheetbackpack"));
         	student.addBackpack(c);
@@ -488,11 +567,18 @@ public class Game {
         else System.out.println(language.get("thereisno")+secWord +language.get("incorri"));
         return;
 	}
-
+    
+    /**
+     * Methode pour afficher le sac à dos
+     */
 	private void displayBackpack() {
 		System.out.println(student.displayBackpack());
 	}
-
+	
+	/**
+	 * Méthode pour attendre jusqu'à une certaine heure
+	 * @param command Commande lue
+	 */
 	private void waiting(Command command) {
     	
     	// Test si la commande contient un deuxième mot
@@ -502,8 +588,10 @@ public class Game {
             return;
         }
         
+        // Creation du temps
         int theTime = 0;
         
+        // Parsing de l'heure
         try {
         	theTime = Integer.parseInt(command.getSecondWord());
         } catch (Exception e) {
@@ -511,6 +599,7 @@ public class Game {
 			return;
 		}
 		
+        // L'heure doit être comprise entre 8h et 17h
         if( theTime <8 || theTime > 17){
         	System.out.println(language.get("timebetween"));
         	return;
@@ -518,13 +607,19 @@ public class Game {
         	
         waitTo(theTime);
 	}
-
+	
+	/**
+	 * Boire une tasse de café à la cafetéria
+	 */
 	private void drink() {
+		
+		// Si drink nous renvois true on bois
 		if(((LunchRoom) student.getCurrentRoom()).drink()){
 			System.out.println(language.get("ggnrj"));
 			student.increaseEnergy(2);
 			energyBar();
 		}
+		// Sinon on joue au babyfoot
 		else{
 			System.out.println(language.get("babyfoot"));
 			student.removeRandomLecture();
@@ -532,7 +627,11 @@ public class Game {
 		System.out.println(language.get("anotherdrink"));
 			
 	}
-
+	
+	/**
+	 * Methode pour allumer les lumières dans un couloir
+	 * @param cmd
+	 */
 	private void switchLight(Command cmd) {
     	
     	// Test si la commande contient un deuxième mot
@@ -545,8 +644,11 @@ public class Game {
         // Deuxième mot : on ou off
         String secondWord = cmd.getSecondWord();
         
+        // Si c'est on
         if( secondWord.toLowerCase().equals("on") )
         	((Corridor)student.getCurrentRoom()).setLight(true);
+        
+        // Si c'est off
         else if( secondWord.toLowerCase().equals("off") )
         	((Corridor)student.getCurrentRoom()).setLight(false);
         
@@ -594,22 +696,41 @@ public class Game {
         
         // Si la sortie existe
         else {
+        	
+        	// Si la prochaine salle est une salle de cours
 			if (nextRoom instanceof CourseRoom) {
+				
+				// On caste la prochaine salle
 				Lecture nextRoomC = ((CourseRoom) nextRoom).getCurrentCourse();
+				
+				// Vérification du planning
 				boolean checked = verifyCheckPlanning();
+				
+				// Si il a check le planning et c'est un cours de OOP
 				if (checked && nextRoomC.getAcronym().equals("OOP")){
+					
+					// Si la prochaine salale est une salle d'examen
 					if(nextRoom instanceof ExamRoom){
 						
+						// On vérifie qu'il a fait tous les cours / TD
 						if(!student.checkBackpack()){
 							System.out.println(language.get("examchecklesson"));
 							return false;
 						}
+						
+						// On vérifie qu'il a au moins 18 d'énergie
 						if(student.getEnergy() < 18){
 							System.out.println(language.get("examchecknrj"));
 							return false;
 						}
+						
+						// Salle d'exam
 						System.out.println(language.get("exammessage"));
+						
+						// On crée le quizz
 						Quizz q = new Quizz(Config.QA, parser, student.getBackpack());
+						
+						// On lance le quizz et on vérifie qu'il a reussit
 						if(q.start()){
 							System.out.println(language.get("bravo"));
 							return true;
@@ -627,13 +748,16 @@ public class Game {
 						// Découvrir la nouvelle salle
 						nextRoom.discover();
 						
+						// On charge le cours dans la prochaine salle
 						Item currentLecture = nextRoomC.getCurrentLesson(student.getBackpack(), nextRoom); 
 						
+						// Si il a déjà fait tous les cours
 						if(currentLecture == null){
 							System.out.println(language.get("allitems"));
 							return false;
 						}
 						
+						// Si c'est un lab et il n'a pas fait le cours
 						if(currentLecture instanceof LabItem && !((LabItem)currentLecture).haveLectItem(student.getBackpack())){
 							System.out.println(language.get("haventlecture"));
 							return false;
@@ -642,12 +766,17 @@ public class Game {
 						// Afficher la description de la salle
 						System.out.println(nextRoom.getLongDescription());
 						System.out.println(language.get("subjectof")+ currentLecture);
+						
+						// Attendre 10 secondes
 	            		waitFor(10);
+	            		
+	            		// Ajouter l'item au backpack
 	            		student.addBackpack(currentLecture);
 	            		System.out.println(language.get("coursefinished"));
 	            		student.decreaseEnergy(2);
 					}
 				}
+				// Si il a vérifié l'emplois du temps mais c'est pas un OOP
 				else if(checked && !nextRoomC.equals("OOP")){
 					// Afficher la carte
 					displayMap();
@@ -658,6 +787,8 @@ public class Game {
 				}
 					 
 			}
+			
+			// Si c'est une librairie
 			else if (nextRoom instanceof Library){
 				
 				if( !((Library) nextRoom).isOpen() ){
@@ -682,9 +813,9 @@ public class Game {
 				// Afficher la description de la salle
 				System.out.println(nextRoom.getLongDescription());
 				
-				//TODO lire un livre
 				Item i = ((Library) nextRoom).getABook();
 				
+				// Si on lit pas un livre de OOP
 				if( i == null ) {
 					System.out.println(language.get("boringbook"));
 				}
@@ -693,10 +824,13 @@ public class Game {
 					student.addBackpack(i);
 				}
 				
+				// Attendre 10 secondes
 				waitFor(10);
 				
+				// Changer l'heure
 				time.setHour(16);
 				
+				// Diminuer l'énergie
 				System.out.println(language.get("nrjdecrease"));
 				student.decreaseEnergy(2);
 			}
@@ -717,7 +851,11 @@ public class Game {
         }
         return false;
     }
-
+    
+    /**
+     * Vérifier le planning de la salle et l'afficher
+     * @param command Commande rentrée par l'uttilisateur
+     */
     private void checkPlanning(Command command) {
 
         // Clear de la console
@@ -755,17 +893,25 @@ public class Game {
 			System.out.println("\n\n"+time.getTime());
         }
 	}
-
+    
+    /**
+     * Vérification du planning
+     * @return Vérité si il a check le planning
+     */
 	private boolean verifyCheckPlanning() {
 		
+		// Création d'une chaine de caractère
 		String c = null;
 		
+		// Affichage question check
 		System.out.println(language.get("check?"));
 		
+		// Si c'est une vrai commande
 		while((c=parser.getCommand().getCommandWord()) == null){
 			System.out.println(language.get("invalplanning"));
 		}
     	
+		// Si c'est un yes
 		if(c.equals(language.get("yes"))) return true;
 		else if( c.equals(language.get("non"))){
 	        // Clear de la console
@@ -801,8 +947,16 @@ public class Game {
         }
     }
     
+    /**
+     * Attendre jusqu'à une certaine heure
+     * @param hour Heure
+     */
     public void waitTo(int hour){
+    	
+    	// Prendre le temps courrant
     	int currentTime = this.time.getHour();
+    	
+    	// Si la différence est supérieure à 0
     	if(hour-currentTime >= 0)
     		this.progressBar(hour-currentTime);
     	else{
@@ -812,6 +966,10 @@ public class Game {
     	time.setHour(hour);
     }
     
+    /**
+     * Attendre n heures de temps
+     * @param seconds secondes
+     */
     public void waitFor(int seconds){
     	this.progressBar(seconds);
     }
@@ -819,14 +977,17 @@ public class Game {
     // On suppose qu'on ne donne pas plus que 100 secondes à attendre
     private void progressBar(int hour){
     	
+    	// Si il faut attendre 0 heures erreur
     	if(hour==0){
     		System.out.println(language.get("timerror"));
     		return;
     	}
     	
+    	// Sinon on calcule le nombre de "=" à afficher
     	int nb = 100/hour;
     	int nbParSec=1000/nb;
     	
+    	// Creation de la progress bar
     	System.out.print("||");
     	for(int i=0; i<100 ; i++){
     		try{

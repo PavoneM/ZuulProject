@@ -37,14 +37,10 @@ public class LunchRoom extends Room{
 				+ Game.language.get("welcomelunchroom")+(chance*100)+"% chance)";
 	}
 	
-	public float getChance() {
-		return chance;
-	}
-
-	public void setChance(float chance) {
-		this.chance = chance;
-	}
-
+	/**
+	 * Méthode drink utilisée dans la cafetéria pour boire du café
+	 * @return Vérité si il a réussi à boire du café
+	 */
 	public boolean drink(){
 		return (Math.random() > chance);
 	}
