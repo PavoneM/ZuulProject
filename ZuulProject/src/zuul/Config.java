@@ -248,7 +248,7 @@ public class Config {
 		langFr.put("book", "Livre");
 		langFr.put("cheat", "feuille");
 		langFr.put("retcheat", "Votre antisèche vous dire que la reponse est");
-		langEn.put("haventlecture", "Avant de venir en TD il faut faire il cours !");
+		langEn.put("haventlecture", "You have to do the Course before comming in Lab !");
 		
 		
 		

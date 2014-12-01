@@ -74,7 +74,7 @@ public class CourseRoom extends Room implements Observer{
 		// retour de la description
 		return Game.language.get("youare") + description +"."
 				+ Game.language.get("youareinlecture")+ currentCourse.getName()
-				+ "\n"+status+"hello";
+				+ "\n"+status;
 	}
 	
 	/**

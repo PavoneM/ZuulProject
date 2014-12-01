@@ -289,7 +289,8 @@ public class Game {
     		// Sur toutes les leçons
     		for(int j=0 ; j<5 ; j++){
     			int random = (int) (Math.random()*4);
-	    		if(random != 2) table[j][i] = new Lecture(language.get(lectures[random]), lectures[random].toUpperCase(),null);
+    			System.out.println(" Lecture " + language.get(lectures[random]) + " " + lectures[random]);
+	    		if(random != 1) table[j][i] = new Lecture(language.get(lectures[random]), lectures[random].toUpperCase(),null);
 	    		else table[j][i] = new Lecture(language.get(lectures[random]), lectures[random].toUpperCase(), Config.oopLecture);
     		}
     	
@@ -317,7 +318,7 @@ public class Game {
     			
     			// Verification que ce n'est pas null
     			if(map.get(i).get(j) == null ){
-    				System.out.print("[  ]");
+    				System.out.print("    ");
     				continue;
     			}
     			
@@ -349,7 +350,7 @@ public class Game {
     				System.out.print("[??]");
     			
     			// Si on ne connait pas la salle, ou il n'existe pas de salle on affiche des espaces
-    			else System.out.print("[  ]");
+    			else System.out.print("    ");
     
     		}
     		System.out.print("\n");
