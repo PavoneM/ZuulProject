@@ -12,11 +12,7 @@
 package zuul;
 
 import java.util.ArrayList;
-
 import zuul.item.Item;
-import zuul.item.LectItem;
-import zuul.room.Classroom;
-import zuul.room.CourseRoom;
 import zuul.room.Room;
 
 public class Lecture {
