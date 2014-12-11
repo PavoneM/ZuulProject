@@ -289,7 +289,7 @@ public class Game {
     		// Sur toutes les leçons
     		for(int j=0 ; j<5 ; j++){
     			int random = (int) (Math.random()*4);
-    			System.out.println(" Lecture " + language.get(lectures[random]) + " " + lectures[random]);
+    			
 	    		if(random != 1) table[j][i] = new Lecture(language.get(lectures[random]), lectures[random].toUpperCase(),null);
 	    		else table[j][i] = new Lecture(language.get(lectures[random]), lectures[random].toUpperCase(), Config.oopLecture);
     		}

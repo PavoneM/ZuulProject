@@ -69,7 +69,7 @@ public class Config {
 		langEn.put("tablettook", "You take the tablet and...");
 		langEn.put("tabletgame","you start to play a game ! You forgot a random lesson");
 		langEn.put("tabletread", "you read something about ");
-		langEn.put("nrjdecrease", " your energy decrease by 2 points");
+		langEn.put("nrjdecrease", "\nyour energy decrease by 2 points");
 		langEn.put("nomorecheat", "There is no more cheat here");
 		langEn.put("youfind", "You find a ");
 		langEn.put("sheetbackpack", "\nThe answer sheet is now in your backpack ! ");
@@ -115,7 +115,7 @@ public class Config {
 		langEn.put("lostitem", "You lost the item : ");
 		langEn.put("0item", "You have 0 item in your backpack");
 		langEn.put("about", " about ");
-		langEn.put("tablet", "Tablet");
+		langEn.put("tablet", "tablet");
 		langEn.put("answersheet", "Answer sheet ");
 		langEn.put("photocopier", "\nOh wait ! there is a photocopier in this corridor. Type 'take cheat' to take the answer sheet");
 		langEn.put("corritablet", "\nThere is a tablet in this room !! Type 'take tablet' to take it");
@@ -127,7 +127,7 @@ public class Config {
 		langEn.put("welcomelunchroom","Welcome to the lunchroom. You can drink coffee or play the babyfoot. \nIf you play the babyfoot, you'll forget a random lesson. \nType 'drink' to play ");
 		langEn.put("book", "Book");
 		langEn.put("cheat", "cheat");
-		langFr.put("retcheat", "Your answer sheet say that the anwser is");
+		langEn.put("retcheat", "Your answer sheet say that the anwser is");
 		langEn.put("haventlecture", "Before coming to lab session you have to go on the lecture");
 		langEn.put("", "");
 		langEn.put("", "");
@@ -248,7 +248,8 @@ public class Config {
 		langFr.put("book", "Livre");
 		langFr.put("cheat", "feuille");
 		langFr.put("retcheat", "Votre antisèche vous dire que la reponse est");
-		langEn.put("haventlecture", "You have to do the Course before comming in Lab !");
+		langFr.put("haventlecture", "Tu dois venir en cours avant d'assister au TD !");
+		langFr.put("nrjdecrease", "\nyour energy decrease by 2 points");
 		
 		
 		
